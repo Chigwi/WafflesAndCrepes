@@ -7,11 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Empleado")
+@Table(name = "Rol")
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Empleado {
+public class Rol {
 
 }
