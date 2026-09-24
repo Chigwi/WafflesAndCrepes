@@ -44,7 +44,7 @@ public class Empleado {
 	
 	@ManyToOne
 	@JoinColumn(name = "rol")
-	private Long rol;
+	private Rol rol;
 	
     @OneToMany(mappedBy = "empleado_que_relevo", cascade = CascadeType.ALL)
     @JsonIgnore

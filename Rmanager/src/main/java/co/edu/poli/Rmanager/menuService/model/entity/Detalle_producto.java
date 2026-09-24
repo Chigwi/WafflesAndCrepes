@@ -2,6 +2,7 @@ package co.edu.poli.Rmanager.menuService.model.entity;
 
 import java.util.List;
 
+import co.edu.poli.Rmanager.ordenService.model.Entity.Detalle_pedido;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Detalle_producto {
 	
 	@ManyToOne
 	@JoinColumn(name = "detalle_pedido")
-	private Long detalle_pedido;
+	private Detalle_pedido detalle_pedido;
 	
 	
 	

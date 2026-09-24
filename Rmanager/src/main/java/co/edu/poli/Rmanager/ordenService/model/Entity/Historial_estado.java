@@ -34,7 +34,7 @@ public class Historial_estado {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_pedido")
-	private Long id_pedido;
+	private Pedido id_pedido;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Estado estado;
