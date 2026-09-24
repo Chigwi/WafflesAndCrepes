@@ -39,9 +39,9 @@ public class Main {
 		
 		Producto p1 = new Producto((long) 1, "Perro Caliente", "Salchicha dentro de un pan", (double) 15.0, comidaRapida, true);
 		
-		Producto p2 = new Producto((long) 1, "Pizza", "Pizza italiana tradiconal ig", (double) 15.0, comidaRapida, true);
+		Producto p2 = new Producto((long) 2, "Pizza", "Pizza italiana tradiconal ig", (double) 15.0, comidaRapida, true);
 
-		Producto p3 = new Producto((long) 1, "Hamburguesa", "Carne molida dentro de un pan", (double) 15.0, comidaRapida, true);
+		Producto p3 = new Producto((long) 3, "Hamburguesa", "Carne molida dentro de un pan", (double) 15.0, comidaRapida, true);
 
 		m.productoService.createProducto(p1);
 		
@@ -49,8 +49,15 @@ public class Main {
 		
 		m.productoService.createProducto(p3);
 		
+		System.out.println(m.productoService.getAllProducto().toString());
 		
+		Producto p4 = new Producto((long) 3, "Salchipapa", "papas y salchichas", (double) 15.0, comidaRapida, true);
 		
+		System.out.println(m.productoService.getProductoById((long)3));
+		
+		m.productoService.deleteProducto((long)1);
+		m.productoService.deleteProducto((long)2);
+		m.productoService.deleteProducto((long)3);
 		
 		
 		//pruebas detalle_producto
