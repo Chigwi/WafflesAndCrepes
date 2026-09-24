@@ -32,6 +32,12 @@ public class EmpleadoService {
 	public List<Empleado> getAllEmpleado(){
 		return empleadoRepository.findAll();
 	}
+	
+	//quitar despues
+	
+	public Empleado createEmpleado(Empleado empleado) {
+		return empleadoRepository.save(empleado);
+	}
 	/*
 	public Boolean getOrCreate(Empleado empleado) {
 		

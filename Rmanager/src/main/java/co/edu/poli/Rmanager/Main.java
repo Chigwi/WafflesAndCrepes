@@ -9,6 +9,8 @@ import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.service.ProductosService;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Detalle_pedido;
+import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
+import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.service.EmpleadoService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,27 @@ public class Main {
 		Main m = new Main();
 		
 		//pruebas empleado
+		
+		Rol mesero = new Rol((long) 1, "Mesero", null);
+		
+		Empleado e1 = new Empleado((long) 1, "Sam", "Arce", "12345678", "Sam@correo", mesero, null);
+		
+		Empleado e2 = new Empleado((long) 2, "Allie", "Velandia", "109315345", "Allie@correo", mesero, null);
+		
+		Empleado e3 = new Empleado((long) 3, "Salomé", "Dorado", "11361646", "Salo@correo", mesero, null);
+		
+		m.empleadoService.createEmpleado(e1);
+		
+		m.empleadoService.createEmpleado(e2);
+		
+		m.empleadoService.createEmpleado(e3);
+		
+		
+		System.out.println(m.empleadoService.getAllEmpleado().toString());
+		
+		Empleado e4 = new Empleado((long) 1, "Allyson", "Velandia", "109315345", "Allie@correo", mesero, null);
+		
+		System.out.println(m.empleadoService.getUsuarioById((long)2));
 		
 
 		
@@ -81,6 +104,11 @@ public class Main {
 		
 		
 		//deletes
+		
+		//empleado
+		m.empleadoService.deleteEmpleado((long)1);
+		m.empleadoService.deleteEmpleado((long)2);
+		m.empleadoService.deleteEmpleado((long)3);
 		
 		//producto
 		m.productoService.deleteProducto((long)1);
