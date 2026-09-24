@@ -41,4 +41,6 @@ public class Producto {
 	@Column(name = "disponible")
 	private Boolean disponible;
 
+	
+
 }
