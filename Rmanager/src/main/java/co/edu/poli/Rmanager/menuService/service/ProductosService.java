@@ -54,7 +54,7 @@ public class ProductosService {
 	//DETALLE PRODUCTO
 	
 	//Insertar
-	public Detalle_producto createCancion(Detalle_producto detalle_producto) {
+	public Detalle_producto createDetalleProducto(Detalle_producto detalle_producto) {
 		return detalleProductoRepository.save(detalle_producto); 
 	}
 	
