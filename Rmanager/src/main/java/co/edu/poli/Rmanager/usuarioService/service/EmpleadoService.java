@@ -23,10 +23,9 @@ public class EmpleadoService {
 	@Autowired
 	private RolRepository rolRepository;
 	
-	private final PasswordEncoder encoder;
+	//private final PasswordEncoder encoder;
 	
-	public EmpleadoService(PasswordEncoder encoder) {
-		this.encoder = encoder;
+	public EmpleadoService() {
 	}
 	
 	public List<Empleado> getAllEmpleado(){

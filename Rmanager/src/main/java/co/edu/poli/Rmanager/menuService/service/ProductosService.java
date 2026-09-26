@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
 import co.edu.poli.Rmanager.menuService.repository.ProductoRepository;
 
+
+@Service
 public class ProductosService {
 	
 	@Autowired

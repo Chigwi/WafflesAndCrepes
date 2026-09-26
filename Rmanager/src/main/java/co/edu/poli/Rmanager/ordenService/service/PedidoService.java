@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
 
+
+@Service
 public class PedidoService {
 	
 	@Autowired
@@ -15,12 +18,20 @@ public class PedidoService {
 	
 	//create pedido
 	
+	
+	public PedidoService(PedidoRepository pedidoRepository) {
+		super();
+		this.pedidoRepository = pedidoRepository;
+	}
+	
+	
+	
 	public Pedido createPedido(Pedido pedido) {
 		
 		return pedidoRepository.save(pedido);
 		
 	}
-	
+
 	//read all pedidos
 	
 	public List<Pedido> getAllPedidos() {
