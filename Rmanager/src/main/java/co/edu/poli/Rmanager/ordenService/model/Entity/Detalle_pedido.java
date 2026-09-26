@@ -22,6 +22,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Detalle_pedido")
@@ -40,6 +41,7 @@ public class Detalle_pedido {
 	@JoinColumn(name = "pedido")
 	private Pedido pedido;
 	
+	@ToString.Exclude
     @OneToMany(mappedBy = "detalle_pedido", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Detalle_producto> productos;

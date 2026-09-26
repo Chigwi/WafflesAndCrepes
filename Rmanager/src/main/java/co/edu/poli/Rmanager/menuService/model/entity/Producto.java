@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table (name="Producto")
@@ -34,6 +35,8 @@ public class Producto {
 	@Column(name = "precio")
 	private Double precio;
 	
+	
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "categoria")
 	private Categoria categoria;

@@ -36,6 +36,9 @@ public class Main implements CommandLineRunner {
 
 		//pruebas empleado
 		
+		System.out.println("\n===== EMPLEADOS =====");
+		System.out.println(empleadoService.getAllEmpleado());
+		
 		Rol mesero = new Rol((long) 1, "Mesero", null);
 		
 		Empleado e1 = new Empleado(null, "Sam", "Arce", "12345678", "Sam@correo", mesero, null);
@@ -60,6 +63,10 @@ public class Main implements CommandLineRunner {
 
 		
 		//pruebas producto
+		
+		System.out.println("\n===== PRODUCTOS =====");
+		System.out.println(productoService.getAllProducto());
+		
 		ArrayList<Producto> pl = new ArrayList<Producto>();
 		
 		Categoria comidaRapida = new Categoria((long) 1, "Comida Rapida", pl);
@@ -88,7 +95,12 @@ public class Main implements CommandLineRunner {
 		
 		//pruebas detalle_producto
 		
+		System.out.println("\n===== DETALLES PRODUCTO =====");
+		System.out.println(productoService.getAllProducto());
+		
 		Detalle_pedido sp = new Detalle_pedido();
+		
+		sp.setId_detalle_pedido((long) 1);
 		
 		Detalle_producto pd1 = new Detalle_producto(null,p1,"sin cebolla",sp);
 		

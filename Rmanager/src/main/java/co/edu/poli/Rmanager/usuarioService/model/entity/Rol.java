@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Rol")
@@ -27,6 +28,8 @@ public class Rol {
 	@Column
 	private String nombre;
 	
+	
+	@ToString.Exclude
     @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Empleado> empleados;

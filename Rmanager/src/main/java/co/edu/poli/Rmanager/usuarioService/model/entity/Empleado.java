@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Empleado")
@@ -46,6 +47,8 @@ public class Empleado {
 	@JoinColumn(name = "rol")
 	private Rol rol;
 	
+	
+	@ToString.Exclude
     @OneToMany(mappedBy = "empleado_que_relevo", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Historial_estado> cambiosEstado;
