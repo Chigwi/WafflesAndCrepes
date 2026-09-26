@@ -125,16 +125,17 @@ public class Main implements CommandLineRunner {
 		empleadoService.deleteEmpleado((long)1);
 		empleadoService.deleteEmpleado((long)2);
 		empleadoService.deleteEmpleado((long)3);
+
+		//detalle prpodcuto
+		productoService.deleteDetalle_producto((long)1);
+		productoService.deleteDetalle_producto((long)2);
+		productoService.deleteDetalle_producto((long)3);
 		
 		//producto
 		productoService.deleteProducto((long)1);
 		productoService.deleteProducto((long)2);
 		productoService.deleteProducto((long)3);
 		
-		//detalle prpodcuto
-		productoService.deleteDetalle_producto((long)1);
-		productoService.deleteDetalle_producto((long)2);
-		productoService.deleteDetalle_producto((long)3);
 	}
 
 }
