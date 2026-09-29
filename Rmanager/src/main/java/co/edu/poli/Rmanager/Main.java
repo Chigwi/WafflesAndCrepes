@@ -19,7 +19,7 @@ import java.util.ArrayList;
 @SpringBootApplication
 public class Main implements CommandLineRunner {
 
-    private final EmpleadoService empleadoService;
+   /* private final EmpleadoService empleadoService;
     private final ProductosService productoService;
 
     // Spring will inject these automatically, no "new" needed
@@ -136,6 +136,6 @@ public class Main implements CommandLineRunner {
 		productoService.deleteProducto((long)2);
 		productoService.deleteProducto((long)3);
 		
-	}
+	}*/
 
 }
