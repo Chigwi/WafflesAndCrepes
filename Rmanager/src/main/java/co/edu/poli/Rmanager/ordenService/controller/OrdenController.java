@@ -41,7 +41,7 @@ public class OrdenController {
 		
 	}
 	
-	@GetMapping("/{id")
+	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Pedido>> getById(@PathVariable Long id){
 		
 		return ResponseEntity.ok(pedidoService.getPedidoById(id));
