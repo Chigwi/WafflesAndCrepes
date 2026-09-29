@@ -40,6 +40,9 @@ public class Empleado {
 	@Column(name = "cedula")
 	private String cedula;
 	
+	@Column(name = "contrasenna")
+	private String contrasenna;
+	
 	@Column(name = "correo")
 	private String correo;
 	

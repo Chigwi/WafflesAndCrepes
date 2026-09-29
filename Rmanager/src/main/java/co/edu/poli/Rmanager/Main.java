@@ -41,11 +41,11 @@ public class Main implements CommandLineRunner {
 		
 		Rol mesero = new Rol((long) 1, "Mesero", null);
 		
-		Empleado e1 = new Empleado(null, "Sam", "Arce", "12345678", "Sam@correo", mesero, null);
+		Empleado e1 = new Empleado(null, "Sam", "Arce", "12345678", "12231", "Sam@correo", mesero, null);
 		
-		Empleado e2 = new Empleado(null, "Allie", "Velandia", "109315345", "Allie@correo", mesero, null);
+		Empleado e2 = new Empleado(null, "Allie", "Velandia", "109315345", "12231", "Allie@correo", mesero, null);
 		
-		Empleado e3 = new Empleado(null, "Salomé", "Dorado", "11361646", "Salo@correo", mesero, null);
+		Empleado e3 = new Empleado(null, "Salomé", "Dorado", "11361646", "12231", "Salo@correo", mesero, null);
 		
 		empleadoService.createEmpleado(e1);
 		
@@ -56,7 +56,7 @@ public class Main implements CommandLineRunner {
 		
 		System.out.println(empleadoService.getAllEmpleado().toString());
 		
-		Empleado e4 = new Empleado((long) 2, "Allyson", "Velandia", "109315345", "Allie@correo", mesero, null);
+		Empleado e4 = new Empleado((long) 2, "Allyson", "Velandia", "109315345", "12231", "Allie@correo", mesero, null);
 		
 		System.out.println(empleadoService.getUsuarioById((long)2));
 		
