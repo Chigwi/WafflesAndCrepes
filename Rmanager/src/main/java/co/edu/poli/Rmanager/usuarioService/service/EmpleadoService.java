@@ -37,12 +37,12 @@ public class EmpleadoService {
 	public Empleado createEmpleado(Empleado empleado) {
 		return empleadoRepository.save(empleado);
 	}
-	/*
+	
 	public Boolean getOrCreate(Empleado empleado) {
 		
-        Optional<Empleado> optionalPersona = empleadoRepository.findByIdEmpleado(empleado.getIdEmpleado());
-	        if (!optionalPersona.isPresent()) {
-	            empleado.setContrasenna(encoder.encode(empleado.getContrasenna()));
+        Optional<Empleado> optionalEmpleado = empleadoRepository.findById(empleado.getId_empleado());
+	        if (!optionalEmpleado.isPresent()) {
+	            empleado.setContrasenna(empleado.getContrasenna());
 
 	            Optional<Rol> basic = rolRepository.findById(2L);
 	            if (basic.isPresent()) {
@@ -55,8 +55,8 @@ public class EmpleadoService {
 	        } else {
 	            return false;
 	        }
-	    } */
-	
+	    } 
+	// contrasenna 12231
 	 public boolean deleteEmpleado(Long id) {
 	        if (empleadoRepository.existsById(id)) {
 	            empleadoRepository.deleteById(id);
