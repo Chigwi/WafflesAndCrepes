@@ -5,6 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -67,5 +71,15 @@ public class EmpleadoService {
 	 public Optional<Empleado> getUsuarioById(Long id) {
 	        return empleadoRepository.findById(id);
 	    }
+	 
+	 public UserDetails loadById(Long id) throws UsernameNotFoundException{
+		 Empleado empleado = empleadoRepository.findById(id)
+				 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + id));
+		 List<GrantedAuthority> authorities = List.of(
+		            new SimpleGrantedAuthority("ROLE_" + empleado.getRol().getNombre())
+		        );
+		 return new AppUserDetails(empleado.getId_empleado(), empleado.getNombre(), empleado.getContrasenna(), authorities);
+
+	 }
 	
 }
