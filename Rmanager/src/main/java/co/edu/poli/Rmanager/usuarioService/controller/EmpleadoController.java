@@ -28,8 +28,7 @@ public class EmpleadoController {
 	
 	@PostMapping("/crearempleado")
 	public ResponseEntity<String> create(@RequestBody Empleado empleado){
-		boolean r = true; // TO-DO: crear metodo get_or_create AAAAAAHHHH
-		/*boolean r = empleadoService.getOrCreate(empleado);*/
+		boolean r = empleadoService.getOrCreate(empleado);
 		if(r) {
 			return ResponseEntity.ok("Usuario creado exitosamente"); // This triggers JPA to insert into DB
 		}else {
@@ -37,12 +36,13 @@ public class EmpleadoController {
 		}
 	}
 	
-	/*@PreAuthorize("hasRol('1')")*/
+	@PreAuthorize("hasRol('admin')")
 	@GetMapping
 	public ResponseEntity<List<Empleado>> getAll(){
 		return ResponseEntity.ok(empleadoService.getAllEmpleado());
 	}
 	
+	@PreAuthorize("hasRol('admin')")
 	@GetMapping("/empleados/{id}")
 	public ResponseEntity<Optional<Empleado>> getThisEmpleado(@PathVariable Long id){
 		return ResponseEntity.ok(empleadoService.getUsuarioById(id));
