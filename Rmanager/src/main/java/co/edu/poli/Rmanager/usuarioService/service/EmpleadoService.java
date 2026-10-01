@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.Rmanager.security.AppUserDetails;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
@@ -78,7 +79,7 @@ public class EmpleadoService {
 		 List<GrantedAuthority> authorities = List.of(
 		            new SimpleGrantedAuthority("ROLE_" + empleado.getRol().getNombre())
 		        );
-		 return new AppUserDetails(empleado.getId_empleado(), empleado.getNombre(), empleado.getContrasenna(), authorities);
+		 return new AppUserDetails(empleado.getId_empleado(), empleado.getCedula(), empleado.getContrasenna(), authorities);
 
 	 }
 	
