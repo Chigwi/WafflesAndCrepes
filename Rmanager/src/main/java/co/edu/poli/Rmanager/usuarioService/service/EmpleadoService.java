@@ -73,9 +73,9 @@ public class EmpleadoService {
 	        return empleadoRepository.findById(id);
 	    }
 	 
-	 public UserDetails loadById(Long id) throws UsernameNotFoundException{
-		 Empleado empleado = empleadoRepository.findById(id)
-				 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + id));
+	 public UserDetails loadByCedula(String cedula) throws UsernameNotFoundException{
+		 Empleado empleado = empleadoRepository.findByCedula(cedula)
+				 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + cedula));
 		 List<GrantedAuthority> authorities = List.of(
 		            new SimpleGrantedAuthority("ROLE_" + empleado.getRol().getNombre())
 		        );

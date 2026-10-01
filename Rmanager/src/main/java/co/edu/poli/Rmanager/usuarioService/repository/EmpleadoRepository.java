@@ -11,5 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 
 @Repository
 public interface EmpleadoRepository extends JpaRepository<Empleado, Long>{
+	@Query("SELECT e FROM Empleado e WHERE e.cedula = :cedula")
+	public Optional<Empleado> findByCedula(String cedula);
+	
 	
 }
