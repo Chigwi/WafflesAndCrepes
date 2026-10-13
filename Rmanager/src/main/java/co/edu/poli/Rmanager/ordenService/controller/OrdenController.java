@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +27,7 @@ public class OrdenController {
 	private PedidoService pedidoService;
 	
 	
-	@PreAuthorize("hasRol('admin')")
+	//@PreAuthorize("hasRol('admin')")
 	@PostMapping("/{id}")
 	public ResponseEntity<Pedido> create(@RequestBody Pedido pedido){
 		
@@ -36,7 +36,7 @@ public class OrdenController {
 		return ResponseEntity.ok(saved);
 	}
 	
-	@PreAuthorize("hasRol('admin')")
+	//@PreAuthorize("hasRol('admin')")
 	@GetMapping
 	public ResponseEntity<List<Pedido>> getAll(){
 		
@@ -44,7 +44,7 @@ public class OrdenController {
 		
 	}
 	
-	@PreAuthorize("hasRol('admin')")
+	//@PreAuthorize("hasRol('admin')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Pedido>> getById(@PathVariable Long id){
 		
@@ -53,7 +53,7 @@ public class OrdenController {
 	}
 
 	
-	@PreAuthorize("hasRol('admin')")
+	//@PreAuthorize("hasRol('admin')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete (@PathVariable Long id){
 		

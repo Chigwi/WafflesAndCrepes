@@ -5,14 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.GrantedAuthority;
+/*import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;*/
 import org.springframework.stereotype.Service;
 
-import co.edu.poli.Rmanager.security.AppUserDetails;
+//import co.edu.poli.Rmanager.security.AppUserDetails;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
@@ -73,7 +73,7 @@ public class EmpleadoService {
 	        return empleadoRepository.findById(id);
 	    }
 	 
-	 public UserDetails loadByCedula(String cedula) throws UsernameNotFoundException{
+	 /*public UserDetails loadByCedula(String cedula) throws UsernameNotFoundException{
 		 Empleado empleado = empleadoRepository.findByCedula(cedula)
 				 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + cedula));
 		 List<GrantedAuthority> authorities = List.of(
@@ -81,6 +81,6 @@ public class EmpleadoService {
 		        );
 		 return new AppUserDetails(empleado.getId_empleado(), empleado.getCedula(), empleado.getContrasenna(), authorities);
 
-	 }
+	 }*/
 	
 }
