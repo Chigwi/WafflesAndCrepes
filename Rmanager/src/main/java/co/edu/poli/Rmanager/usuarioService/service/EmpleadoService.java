@@ -45,7 +45,7 @@ public class EmpleadoService {
 	
 	public Boolean getOrCreate(Empleado empleado) {
 		
-        Optional<Empleado> optionalEmpleado = empleadoRepository.findById(empleado.getId_empleado());
+        Optional<Empleado> optionalEmpleado = empleadoRepository.findByCedula(empleado.getCedula());
 	        if (!optionalEmpleado.isPresent()) {
 	            empleado.setContrasenna(empleado.getContrasenna());
 

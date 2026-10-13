@@ -28,7 +28,7 @@ public class OrdenController {
 	
 	
 	//@PreAuthorize("hasRol('admin')")
-	@PostMapping("/{id}")
+	@PostMapping
 	public ResponseEntity<Pedido> create(@RequestBody Pedido pedido){
 		
 		Pedido saved = pedidoService.createPedido(pedido);
