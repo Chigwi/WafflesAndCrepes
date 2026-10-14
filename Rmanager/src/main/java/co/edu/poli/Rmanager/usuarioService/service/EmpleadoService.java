@@ -53,7 +53,7 @@ public class EmpleadoService {
 	            Optional<Rol> basic = rolRepository.findById(2L);
 	            if (basic.isPresent()) {
 	                empleado.setRol(basic.get());
-	                Empleado e = empleadoRepository.save(empleado);
+	                empleadoRepository.save(empleado);
 	                return true;
 	            } else {
 	                throw new RuntimeException("Rol básico no encontrado");
@@ -71,6 +71,13 @@ public class EmpleadoService {
 	    }
 	 public Optional<Empleado> getUsuarioById(Long id) {
 	        return empleadoRepository.findById(id);
+	    }
+	 
+	 public Optional<Empleado> getUsuarioByUsername(String cedula)throws UsernameNotFoundException{
+	    	Optional<Empleado> empleado = Optional.of(empleadoRepository.findByCedula(cedula)
+	                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + cedula)));
+
+	    	return empleado;
 	    }
 	 
 	 public UserDetails loadByCedula(String cedula) throws UsernameNotFoundException{
