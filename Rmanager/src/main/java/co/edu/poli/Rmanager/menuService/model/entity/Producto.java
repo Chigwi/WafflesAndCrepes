@@ -43,6 +43,9 @@ public class Producto {
 	
 	@Column(name = "disponible")
 	private Boolean disponible;
+	
+	@Column(name = "es_menu_del_dia")
+	private Boolean es_menu_del_dia;
 
 	
 
