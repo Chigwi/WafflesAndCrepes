@@ -28,9 +28,10 @@ public class EmpleadoService {
 	@Autowired
 	private RolRepository rolRepository;
 	
-	//private final PasswordEncoder encoder;
+	private final PasswordEncoder encoder;
 	
-	public EmpleadoService() {
+	public EmpleadoService(PasswordEncoder encoder) {
+		this.encoder = encoder;
 	}
 	
 	public List<Empleado> getAllEmpleado(){
@@ -47,7 +48,7 @@ public class EmpleadoService {
 		
         Optional<Empleado> optionalEmpleado = empleadoRepository.findById(empleado.getId_empleado());
 	        if (!optionalEmpleado.isPresent()) {
-	            empleado.setContrasenna(empleado.getContrasenna());
+	            empleado.setContrasenna(encoder.encode(empleado.getContrasenna()));
 
 	            Optional<Rol> basic = rolRepository.findById(2L);
 	            if (basic.isPresent()) {
@@ -61,7 +62,6 @@ public class EmpleadoService {
 	            return false;
 	        }
 	    } 
-	// contrasenna 12231 :)
 	 public boolean deleteEmpleado(Long id) {
 	        if (empleadoRepository.existsById(id)) {
 	            empleadoRepository.deleteById(id);
