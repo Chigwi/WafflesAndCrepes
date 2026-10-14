@@ -24,15 +24,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
-@Table(name = "Detalle_pedido")
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 
 public class Detalle_pedido {
-
+	/*
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_detalle_pedido;
@@ -52,5 +47,5 @@ public class Detalle_pedido {
 	
 	@Column(name = "metodo_de_pago")
 	private String metodo_de_pago;
-	
+	*/
 }

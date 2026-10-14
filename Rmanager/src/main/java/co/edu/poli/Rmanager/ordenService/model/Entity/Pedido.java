@@ -3,10 +3,12 @@ package co.edu.poli.Rmanager.ordenService.model.Entity;
 
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,6 +24,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Pedido")
@@ -49,10 +52,21 @@ public class Pedido {
 	private Estado estado;
 	
 	@Column(name = "fecha_creacion")
-	private Date fecha_creacion;
+	private LocalDateTime fecha_creacion;
 	
-	@Column(name = "fecha_ultima_actualización")
-	private Date fecha_ultima_actualizacion;
+	@Column(name = "fecha_ultima_actualizacion")
+	private LocalDateTime fecha_ultima_actualizacion;
+	
+	@Column(name = "precio_total")
+	private Double precio_total;
+	
+	@Column(name = "metodo_de_pago")
+	private String metodo_de_pago;
+	
+	@ToString.Exclude
+    @OneToMany(mappedBy = "Pedido", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Detalle_producto> productos;
 	
     @OneToMany(mappedBy = "id_pedido", cascade = CascadeType.ALL)
     @JsonIgnore
