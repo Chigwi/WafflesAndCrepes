@@ -13,7 +13,7 @@ import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long>{
 	
-	@Query("SELECT p FROM Pedido p WHERE p.es_menu_del_dia = disponible")
+	@Query("SELECT p FROM Producto p WHERE p.es_menu_del_dia = disponible")
 	public List<Optional<Producto>> findAllByMenuDelDia (Boolean disponible);
 	
 	

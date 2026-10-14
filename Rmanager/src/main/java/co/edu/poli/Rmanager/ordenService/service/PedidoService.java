@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
 
@@ -65,5 +66,9 @@ public class PedidoService {
 		return pedidoRepository.save(newPedido);
 		
 	}
+	
+	public List<Optional<Pedido>> getPedidoByEstado(String estado){
+    	return pedidoRepository.findAllByEstado(estado);
+    }
 
 }
