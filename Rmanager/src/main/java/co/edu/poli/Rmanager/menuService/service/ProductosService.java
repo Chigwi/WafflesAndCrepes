@@ -10,6 +10,7 @@ import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
 import co.edu.poli.Rmanager.menuService.repository.ProductoRepository;
+import jakarta.transaction.Transactional;
 
 
 @Service
@@ -85,6 +86,8 @@ public class ProductosService {
 			return detalleProductoRepository.save(newDetalleProducto);
 		}
 	
-	
 
+		    public List<Optional<Producto>> getProductoByMenuDelDia(boolean disponible){
+		    	return productoRepository.findAllByMenuDelDia(disponible);
+		    }
 }
