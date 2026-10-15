@@ -70,5 +70,9 @@ public class PedidoService {
 	public List<Optional<Pedido>> getPedidoByEstado(String estado){
     	return pedidoRepository.findAllByEstado(estado);
     }
+	
+	public List<Optional<Pedido>> getPedidosPendientes(){
+    	return pedidoRepository.findAllByPedidosPendientes();
+    }
 
 }
