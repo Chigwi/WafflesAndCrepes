@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +53,13 @@ public class MenuController {
 			
 		}
 		
+		//PUT
+		@PreAuthorize("hasRole('admin')")
+	    @PutMapping("/{id}")
+	    public ResponseEntity<Producto> update(Long id, @RequestBody Producto updateProducto){
+	        return ResponseEntity.ok(productoService.updateProducto(updateProducto));
+	    }
+		
 		//Delete
 		@PreAuthorize("hasRol('admin')")
 		@DeleteMapping("/{id}")
@@ -88,6 +96,13 @@ public class MenuController {
 					return ResponseEntity.ok(productoService.getDetalleProductonById(id));
 					
 				}
+				
+				//PUT
+				@PreAuthorize("hasRole('admin')")
+			    @PutMapping("/{id}")
+			    public ResponseEntity<Detalle_producto> update(Long id, @RequestBody Detalle_producto updateDetalleProducto){
+			        return ResponseEntity.ok(productoService.updateDetalleProducto(updateDetalleProducto));
+			    }
 				
 				//Delete
 				@PreAuthorize("hasRol('admin')")
