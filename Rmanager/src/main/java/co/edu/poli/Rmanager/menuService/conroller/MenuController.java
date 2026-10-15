@@ -56,7 +56,7 @@ public class MenuController {
 		//PUT
 		@PreAuthorize("hasRole('admin')")
 	    @PutMapping("/{id}")
-	    public ResponseEntity<Producto> update(Long id, @RequestBody Producto updateProducto){
+	    public ResponseEntity<Producto> update(@PathVariable Long id, @RequestBody Producto updateProducto){
 	        return ResponseEntity.ok(productoService.updateProducto(updateProducto));
 	    }
 		
@@ -100,7 +100,7 @@ public class MenuController {
 				//PUT
 				@PreAuthorize("hasRole('admin')")
 			    @PutMapping("/{id}")
-			    public ResponseEntity<Detalle_producto> update(Long id, @RequestBody Detalle_producto updateDetalleProducto){
+			    public ResponseEntity<Detalle_producto> update(@PathVariable Long id, @RequestBody Detalle_producto updateDetalleProducto){
 			        return ResponseEntity.ok(productoService.updateDetalleProducto(updateDetalleProducto));
 			    }
 				
