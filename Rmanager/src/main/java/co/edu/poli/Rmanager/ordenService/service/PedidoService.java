@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
+import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
+import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
+import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
 
 
@@ -16,6 +19,9 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private IncidenteRepository incidenteRepository;
 	
 	//create pedido
 	
@@ -67,12 +73,57 @@ public class PedidoService {
 		
 	}
 	
+	//get pedidos by estado
 	public List<Optional<Pedido>> getPedidoByEstado(String estado){
     	return pedidoRepository.findAllByEstado(estado);
     }
 	
+	//get pedidos with estado "disponible"
 	public List<Optional<Pedido>> getPedidosPendientes(){
     	return pedidoRepository.findAllByPedidosPendientes();
     }
+	
+	//change pedido's mesa
+	public boolean updateMesaFromPedido (Long pedidoId, Mesa mesa) {
+		
+		Optional<Pedido> optionalPedido = pedidoRepository.findById(pedidoId);
+		
+		if(optionalPedido.isPresent()) {
+			
+			Pedido pedido = optionalPedido.get();
+			
+			pedido.setMesa(mesa);
+			
+			pedidoRepository.save(pedido);
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	//add incidente to pedido
+	public boolean addIncidenteToPedido(Long pedidoId, String descripcion) {
+		
+		Optional<Pedido> optionalPedido = pedidoRepository.findById(pedidoId);
+		
+		if(optionalPedido.isPresent()) {
+			
+			Pedido pedido = optionalPedido.get();
+			
+			Incidente incidente = new Incidente();
+			
+			incidente.setPedido(pedido);
+			
+			incidente.setDescripcion(descripcion);
+			
+			incidenteRepository.save(incidente);
+			
+			return true;
+		}
+		
+		return false;
+	}
 
+	
 }
