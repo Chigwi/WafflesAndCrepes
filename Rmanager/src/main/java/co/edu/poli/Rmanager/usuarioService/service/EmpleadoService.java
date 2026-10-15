@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import co.edu.poli.Rmanager.usuarioService.repository.RolRepository;
 
 @Service
 @Primary
-public class EmpleadoService {
+public class EmpleadoService implements UserDetailsService{
 
 	@Autowired
 	private EmpleadoRepository empleadoRepository;
@@ -30,9 +31,13 @@ public class EmpleadoService {
 	
 	private final PasswordEncoder encoder;
 	
-	public EmpleadoService(PasswordEncoder encoder) {
+	public EmpleadoService(EmpleadoRepository empleadoRepository, RolRepository rolRepository, PasswordEncoder encoder) {
+		this.empleadoRepository = empleadoRepository;
+		this.rolRepository = rolRepository;
 		this.encoder = encoder;
 	}
+	
+
 	
 	public List<Empleado> getAllEmpleado(){
 		return empleadoRepository.findAll();
@@ -88,6 +93,13 @@ public class EmpleadoService {
 		        );
 		 return new AppUserDetails(empleado.getId_empleado(), empleado.getCedula(), empleado.getContrasenna(), authorities);
 
+	 }
+
+
+
+	 @Override
+	 public UserDetails loadUserByUsername(String cedula) throws UsernameNotFoundException {
+		return loadByCedula(cedula);
 	 }
 	
 }
