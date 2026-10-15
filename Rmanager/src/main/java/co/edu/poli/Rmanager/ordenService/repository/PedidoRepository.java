@@ -19,7 +19,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	public List<Optional<Pedido>> findAllByEstado (String estado);
 	
 
-	@Query("SELECT p FROM Pedido p WHERE p.estado.nombre = disponible")
-	public List<Optional<Pedido>> findAllByPedidosPendientes ();
+	/*@Query("SELECT p FROM Pedido p WHERE p.estado.nombre = disponible")
+	public List<Optional<Pedido>> findAllByPedidosPendientes ();*/
 
 }

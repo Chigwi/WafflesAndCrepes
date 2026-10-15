@@ -80,7 +80,7 @@ public class PedidoService {
 	
 	//get pedidos with estado "disponible"
 	public List<Optional<Pedido>> getPedidosPendientes(){
-    	return pedidoRepository.findAllByPedidosPendientes();
+    	return pedidoRepository.findAllByEstado("pendiente");
     }
 	
 	//change pedido's mesa
