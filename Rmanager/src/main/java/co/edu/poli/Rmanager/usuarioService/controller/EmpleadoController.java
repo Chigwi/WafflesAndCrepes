@@ -41,7 +41,7 @@ public class EmpleadoController {
 	
 	@PreAuthorize("hasRole('admin')")
 	@GetMapping
-	public ResponseEntity<List<Empleado>> getAll(){
+	public ResponseEntity<List<Empleado>> getAllEmpleados(){
 		return ResponseEntity.ok(empleadoService.getAllEmpleado());
 	}
 	
@@ -53,7 +53,7 @@ public class EmpleadoController {
 	
 	@PreAuthorize("hasRole('admin')")
 	@DeleteMapping("/empleados/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id){
+	public ResponseEntity<String> deleteEmpleado(@PathVariable Long id){
 		boolean deleted = empleadoService.deleteEmpleado(id);
 		if (deleted) {
 			return ResponseEntity.noContent().build();
