@@ -36,13 +36,13 @@ public class EmpleadoController {
 		}
 	}
 	
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping
 	public ResponseEntity<List<Empleado>> getAll(){
 		return ResponseEntity.ok(empleadoService.getAllEmpleado());
 	}
 	
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/empleados/{id}")
 	public ResponseEntity<Optional<Empleado>> getThisEmpleado(@PathVariable Long id){
 		return ResponseEntity.ok(empleadoService.getUsuarioById(id));
