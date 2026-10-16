@@ -40,6 +40,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/api/empleado/crearempleado").permitAll()
 						.anyRequest().authenticated()
 						)
+				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.build();
 	}
