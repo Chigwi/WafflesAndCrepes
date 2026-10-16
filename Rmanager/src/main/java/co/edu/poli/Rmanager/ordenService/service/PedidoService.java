@@ -17,9 +17,11 @@ import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
 import co.edu.poli.Rmanager.ordenService.repository.EstadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.Historial_estadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
+import co.edu.poli.Rmanager.ordenService.repository.MesaRepository;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
@@ -43,6 +45,9 @@ public class PedidoService {
 	@Autowired
 	private EmpleadoRepository empleadoRepository;
 	
+	@Autowired
+	private MesaRepository mesaRepository;
+	
 	//create pedido
 	
 	
@@ -53,7 +58,55 @@ public class PedidoService {
 	
 	
 	
-	public Pedido createPedido(Pedido pedido) {
+	public Pedido createPedido(PedidoInsertDTO pedidoDTO) {
+		
+		LocalDateTime creacion = LocalDateTime.now();
+		
+		Pedido pedido = new Pedido();
+		
+		//se asegura que el estado del pedido al crear sea pendiente
+		Estado nuevo = new Estado();
+				
+		nuevo.setId_estado(Estados.PENDIENTE.getId());
+		
+		nuevo.setNombre(Estados.PENDIENTE.getEstado());
+		
+		pedido.setEstado(nuevo);
+		
+		//trae al empleado que creó el pedido
+		
+		Empleado meseroEncargado;
+		if(empleadoRepository.existsById(pedidoDTO.getId_mesero())) {
+			meseroEncargado = bringEmpleado(pedidoDTO.getId_mesero());
+		}else {
+			meseroEncargado = null;
+		}
+		
+		//asigna el empleado al pedido
+		
+		pedido.setMesero(meseroEncargado);
+		
+		
+		//trae la mesa asignada al pedido
+		
+		Mesa mesaAsignada;
+		if(mesaRepository.existsById(pedidoDTO.getId_mesa())) {
+			mesaAsignada = bringMesa(pedidoDTO.getId_mesa());
+		}else {
+			mesaAsignada = null;
+		}
+		
+		//asigna la mesa al pedido
+		
+		pedido.setMesa(mesaAsignada);
+
+		//se asignan la hora de creacion y ultima actualización
+		
+		pedido.setFecha_creacion(creacion);
+		
+		pedido.setFecha_ultima_actualizacion(creacion);
+		
+		//guarda pedido en la base de datos y retorna
 		
 		return pedidoRepository.save(pedido);
 		
@@ -196,13 +249,13 @@ public class PedidoService {
 			if(current < idEstado && idEstado < 4 ) {
 				
 				//trae el nuevo estado desde la base de datos con su id
-				Estado newEstado = estadoRepository.findById(idEstado).get();
+				Estado newEstado = bringEstado(idEstado);
 				
 				//se cambia el estado en el pedido
 				pedido.setEstado(newEstado);
 				
 				//se trae al empleado que hizo el cambio de estado
-				Empleado empleadoActual = empleadoRepository.findById(idEmpleado).get();
+				Empleado empleadoActual = bringEmpleado(idEmpleado);
 				
 				LocalDateTime horaCambio = LocalDateTime.now();
 				
@@ -237,6 +290,62 @@ public class PedidoService {
 			
 		}else {
 			return null;
+		}
+	}
+	
+	//*****************
+	// METODOS PRIVADOS
+	//*****************
+	
+	//Trae una mesa de la base de datos
+	private Empleado bringEmpleado (Long idEmpleado) {
+		
+		Optional<Empleado> optionalEmpleado = empleadoRepository.findById(idEmpleado);
+		
+		if(optionalEmpleado.isPresent()) {
+			
+			Empleado empleado = optionalEmpleado.get();
+			
+			return empleado;
+		}else {
+			
+			return null;
+			
+		}
+	}
+	
+	//trae una mesa de la base de datos
+	private Mesa bringMesa (Long idMesa) {
+		
+		Optional<Mesa> optionalMesa = mesaRepository.findById(idMesa);
+		
+		if(optionalMesa.isPresent()) {
+			
+			Mesa mesa = optionalMesa.get();
+			
+			return mesa;
+		}else {
+			
+			return null;
+			
+		}
+	}
+	
+	//trae un estado de la base de datos
+	private Estado bringEstado (Long idEstado) {
+		
+		Optional<Estado> optionalEstado = estadoRepository.findById(idEstado);
+		
+		if(optionalEstado.isPresent()) {
+			
+			Estado estado = optionalEstado.get();
+			
+			return estado;
+			
+		}else {
+			
+			return null;
+			
 		}
 	}
 }

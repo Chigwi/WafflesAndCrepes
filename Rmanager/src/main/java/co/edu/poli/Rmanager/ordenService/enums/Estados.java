@@ -1,37 +1,23 @@
 package co.edu.poli.Rmanager.ordenService.enums;
-
 public enum Estados {
-	
-	PENDIENTE{
-		public String getMetodo() {
-			return "Pendiente";
-		}
-		public Long getId() {
-			return 1L;
-		}
-		
-		
-	}, EN_PREPARACION{
-		public String getMetodo() {
-			return "En preparacion";
-		}
-		
-		public Long getId() {
-			return 2L;
-		}
-		
-	}, ENTREGADO{
-		public String getMetodo() {
-			return "Entregado";
-		}
-		
-		public Long getId() {
-			return 3L;
-			
-		}
-		
-	}
-	
-	
 
+    PENDIENTE(1L, "Pendiente"),
+    EN_PREPARACION(2L, "En preparacion"),
+    ENTREGADO(3L, "Entregado");
+
+    private final Long id;
+    private final String metodo;
+
+    Estados(Long id, String estado) {
+        this.id = id;
+        this.metodo = estado;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEstado() {
+        return metodo;
+    }
 }
