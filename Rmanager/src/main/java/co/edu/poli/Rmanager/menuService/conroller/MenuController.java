@@ -55,7 +55,7 @@ public class MenuController {
 		}
 		//get menu del dia
 		@PreAuthorize("hasRole('admin')")
-		@GetMapping("/menu del dia")
+		@GetMapping("/menu_del_dia")
 		public ResponseEntity<List<Optional<Producto>>> getMenuDelDia(){
 				return ResponseEntity.ok(productoService.getProductoByMenuDelDia(true));
 					
