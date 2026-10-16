@@ -10,6 +10,7 @@ import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
+import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
 
@@ -82,6 +83,16 @@ public class PedidoService {
 	public List<Optional<Pedido>> getPedidosPendientes(){
     	return pedidoRepository.findAllByEstado("pendiente");
     }
+	
+	//get the mesas assigned to an empleado
+	public List<MesaActivaDTO>getMesasByEmpleado(Long idEmpleado){
+		return pedidoRepository.findMesasActivaByEmpleado(idEmpleado);
+	}
+	
+	//get all the mesas currently active
+	public List<MesaActivaDTO>getAllMesasActivas(){
+		return pedidoRepository.findAllMesasActivas();
+	}
 	
 	//change pedido's mesa
 	public boolean updateMesaFromPedido (Long pedidoId, Mesa mesa) {
