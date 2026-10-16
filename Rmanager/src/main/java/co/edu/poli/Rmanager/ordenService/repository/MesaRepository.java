@@ -12,6 +12,7 @@ import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 @Repository
 public interface MesaRepository extends JpaRepository<Mesa, Long> {
 	
+	//query que trae las mesas que no estan ocupadas 
 	@Query("SELECT m FROM Mesa WHERE m.ocupada = :disponibilidad")
 	public List<Optional<Mesa>> findAllMesasDisponibles (Boolean disponibilidad);
 	

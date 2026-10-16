@@ -17,6 +17,7 @@ import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	
+	//query que trae todos los pedidos con un cierto estado
 	@Query("SELECT p FROM Pedido p WHERE p.estado.nombre = :estado")
 	public List<Optional<Pedido>> findAllByEstado (String estado);
 	
@@ -24,6 +25,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	/*@Query("SELECT p FROM Pedido p WHERE p.estado.nombre = disponible")
 	public List<Optional<Pedido>> findAllByPedidosPendientes ();*/
 	
+	//query que trae todas las mesas de un empleado
 	@Query("""
 		    SELECT new co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO(
 		        mesero.nombre, mesa.id, estado.nombre)
@@ -36,7 +38,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 		    """)
 	public List<MesaActivaDTO> findMesasActivaByEmpleado (@Param ("idEmpleado") Long idEmpleado);
 	
-	
+	//query que trae todas las mesas actualmente activas y el empleado que las esta usando
 	@Query("""  
 			SELECT new co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO(
 				mesero.nombre, mesa.id, estado.nombre)

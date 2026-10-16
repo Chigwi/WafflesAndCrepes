@@ -14,6 +14,7 @@ import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long>{
 	
+	//Query que trae el menu del dia
 	@Query("SELECT p FROM Producto p WHERE p.es_menu_del_dia = :disponible")
 	public List<Optional<Producto>> findAllByMenuDelDia (Boolean disponible);
 	
