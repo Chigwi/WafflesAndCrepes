@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.Rmanager.menuService.model.dto.ProductoDisponibleDTO;
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
@@ -94,5 +95,46 @@ public class ProductosService {
 		    }
 	
 	//
-	public  
+	public ProductoDisponibleDTO changeDisponibilidadProducto(ProductoDisponibleDTO updateProducto) {
+		
+		Producto producto = bringProducto(updateProducto.getIdProducto());
+		
+		producto.setDisponible(updateProducto.getDisponible());
+		
+		productoRepository.save(producto);
+		
+		return updateProducto;
+		
+	}
+	
+	//================
+	//metodos privados
+	//================
+	
+	private Producto bringProducto(Long idProducto) {
+		
+		if(productoRepository.existsById(idProducto)) {
+			
+			Optional<Producto> optionalProducto = productoRepository.findById(idProducto);
+			
+			if(optionalProducto.isPresent()) {
+				
+				Producto producto = optionalProducto.get();
+				
+				return producto;
+				
+			}else {
+				
+				return null;
+				
+			}
+			
+		}else {
+			
+			return null;
+			
+		}
+		
+	}
+	
 }
