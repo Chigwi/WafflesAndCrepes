@@ -332,7 +332,20 @@ public class PedidoService {
 	}
 	
 	//remove producto(S) from pedido
-	
+	@Transactional
+	public Pedido removeProductosFromPedido(List<Long> idsDetalle, Long idPedido) {
+
+	    Pedido current = bringPedido(idPedido);
+
+	    current.getProductos().removeIf(d -> idsDetalle.contains(d.getId_detalle_producto()));
+
+	    double total = current.getProductos().stream()
+	            .mapToDouble(d -> d.getProducto().getPrecio())
+	            .sum();
+
+	    current.setPrecio_total(total);
+	    return pedidoRepository.save(current);
+	}
 
 	
 	//*****************
