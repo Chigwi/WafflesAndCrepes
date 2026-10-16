@@ -117,6 +117,8 @@ public class OrdenController {
 		}
 	}
 	
+	//mesas empleado
+	
 	@PreAuthorize("hasRol('admin')")
 	@GetMapping("/mesasEmpleado/{id}")
 	public ResponseEntity<List<MesaActivaDTO>> getMesasByEmpleado(@PathVariable Long id){
@@ -125,6 +127,7 @@ public class OrdenController {
 		
 	}
 	
+	//mesas activas
 	@PreAuthorize("hasRol('admin')")
 	@GetMapping("/mesasActivas")
 	public ResponseEntity<List<MesaActivaDTO>> getMesasByEmpleado(){
