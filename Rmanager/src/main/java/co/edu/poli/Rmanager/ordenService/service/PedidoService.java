@@ -10,6 +10,7 @@ import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
+import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
@@ -74,6 +75,27 @@ public class PedidoService {
 		
 	}
 	
+	//get estado de un pedido
+	public EstadoDTO getEstadoOfPedido(Long idPedido) {
+		Optional<Pedido> pedido = pedidoRepository.findById(idPedido);
+		
+		if(pedido.isPresent()) {
+			
+			Pedido currentPedido = pedido.get();
+			
+			EstadoDTO currentEstado = new EstadoDTO();
+			
+			currentEstado.setPedido_id(idPedido);
+			
+			currentEstado.setEstado(currentPedido.getEstado().getNombre());
+			
+			return currentEstado;
+		}else {
+			return null;
+		}
+	}
+	
+	
 	//get pedidos by estado
 	public List<Optional<Pedido>> getPedidoByEstado(String estado){
     	return pedidoRepository.findAllByEstado(estado);
@@ -136,5 +158,7 @@ public class PedidoService {
 		return false;
 	}
 
+	//actualizar estado de un pedido
+	
 	
 }
