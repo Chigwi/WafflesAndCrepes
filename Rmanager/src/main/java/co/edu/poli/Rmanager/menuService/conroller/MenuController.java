@@ -53,7 +53,13 @@ public class MenuController {
 			return ResponseEntity.ok(productoService.getProductoById(id));
 			
 		}
-		
+		//get menu del dia
+		@PreAuthorize("hasRole('admin')")
+		@GetMapping("/menu del dia")
+		public ResponseEntity<List<Optional<Producto>>> getMenuDelDia(){
+				return ResponseEntity.ok(productoService.getProductoByMenuDelDia(true));
+					
+				}
 		//PUT
 		@PreAuthorize("hasRole('admin')")
 	    @PutMapping("/{id}")
