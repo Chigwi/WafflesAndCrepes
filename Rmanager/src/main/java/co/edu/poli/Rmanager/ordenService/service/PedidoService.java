@@ -28,6 +28,7 @@ import co.edu.poli.Rmanager.ordenService.repository.MesaRepository;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 
@@ -352,104 +353,29 @@ public class PedidoService {
 	// METODOS PRIVADOS
 	//*****************
 	
-	//Trae una mesa de la base de datos
-	private Empleado bringEmpleado (Long idEmpleado) {
-		
-		Optional<Empleado> optionalEmpleado = empleadoRepository.findById(idEmpleado);
-		
-		if(optionalEmpleado.isPresent()) {
-			
-			Empleado empleado = optionalEmpleado.get();
-			
-			return empleado;
-		}else {
-			
-			return null;
-			
-		}
+	private Empleado bringEmpleado(Long idEmpleado) {
+	    return empleadoRepository.findById(idEmpleado)
+	            .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado: " + idEmpleado));
 	}
-	
-	//trae una mesa de la base de datos
-	private Mesa bringMesa (Long idMesa) {
-		
-		Optional<Mesa> optionalMesa = mesaRepository.findById(idMesa);
-		
-		if(optionalMesa.isPresent()) {
-			
-			Mesa mesa = optionalMesa.get();
-			
-			return mesa;
-		}else {
-			
-			return null;
-			
-		}
+
+	private Mesa bringMesa(Long idMesa) {
+	    return mesaRepository.findById(idMesa)
+	            .orElseThrow(() -> new EntityNotFoundException("Mesa no encontrada: " + idMesa));
 	}
-	
-	//trae un estado de la base de datos
-	private Estado bringEstado (Long idEstado) {
-		
-		Optional<Estado> optionalEstado = estadoRepository.findById(idEstado);
-		
-		if(optionalEstado.isPresent()) {
-			
-			Estado estado = optionalEstado.get();
-			
-			return estado;
-			
-		}else {
-			
-			return null;
-			
-		}
+
+	private Estado bringEstado(Long idEstado) {
+	    return estadoRepository.findById(idEstado)
+	            .orElseThrow(() -> new EntityNotFoundException("Estado no encontrado: " + idEstado));
 	}
-	
-	//trae un pedido de la base de datos
-	private Pedido bringPedido (Long idPedido) {
-		
-		if(pedidoRepository.existsById(idPedido)) {
-			
-			Optional <Pedido> optionalPedido = pedidoRepository.findById(idPedido);
-			
-			if(optionalPedido.isPresent()) {
-				
-				Pedido pedido = optionalPedido.get();
-				
-				return pedido;
-				
-			}else {
-				return null;
-			}
-			
-		}else {
-			return null;
-		}
+
+	private Pedido bringPedido(Long idPedido) {
+	    return pedidoRepository.findById(idPedido)
+	            .orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado: " + idPedido));
 	}
-	
-	//trae un producto de la base de datos
-	private Producto bringProducto (Long idProducto) {
-		
-		if(productoRepository.existsById(idProducto)) {
-			
-			Optional<Producto> optionalProducto = productoRepository.findById(idProducto);
-			
-			if(optionalProducto.isPresent()) {
-			
-				Producto producto = optionalProducto.get();
-				
-				return producto;
-				
-			}else {
-				
-				return null;
-				
-			}
-			
-		}else {
-			
-			return null;
-			
-		}
+
+	private Producto bringProducto(Long idProducto) {
+	    return productoRepository.findById(idProducto)
+	            .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado: " + idProducto));
 	}
 }
 
