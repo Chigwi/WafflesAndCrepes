@@ -27,7 +27,9 @@ public class ProductosService {
 	//Insertar
 	//@Transactional(transactionManager = "cancionTransactionManager")
 	public Producto createProducto(Producto producto) {
-		return productoRepository.save(producto); 
+		return productoRepository.save(producto);
+		
+		
 	}
 	
 	

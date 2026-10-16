@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
+import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.service.EmpleadoService;
 
 @RestController
@@ -57,6 +59,16 @@ public class EmpleadoController {
 			return ResponseEntity.noContent().build();
 		} else {
 			return ResponseEntity.notFound().build(); 
+		}
+	}
+	
+	@PutMapping("/empleados/{id}")
+	public ResponseEntity<String> updateRol(@PathVariable Long id, @RequestBody Rol rol){
+		boolean updated = empleadoService.updateRol(id, rol);
+		if(updated) {
+			return ResponseEntity.ok("Ususario actualizado exitosamente");
+		}else {
+			return ResponseEntity.notFound().build();
 		}
 	}
 	
