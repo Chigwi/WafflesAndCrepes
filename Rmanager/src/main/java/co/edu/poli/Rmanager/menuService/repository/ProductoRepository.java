@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
@@ -16,7 +17,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Long>{
 	
 	//Query que trae el menu del dia
 	@Query("SELECT p FROM Producto p WHERE p.es_menu_del_dia = :disponible")
-	public List<Optional<Producto>> findAllByMenuDelDia (Boolean disponible);
+	public List<Optional<Producto>> findAllByMenuDelDia (@Param("disponible") Boolean disponible);
 	
 	
 

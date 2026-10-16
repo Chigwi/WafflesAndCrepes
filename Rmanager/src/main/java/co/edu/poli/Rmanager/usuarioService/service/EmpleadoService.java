@@ -51,11 +51,11 @@ public class EmpleadoService implements UserDetailsService{
 	
 	public Boolean getOrCreate(Empleado empleado) {
 		
-        Optional<Empleado> optionalEmpleado = empleadoRepository.findById(empleado.getId_empleado());
+        Optional<Empleado> optionalEmpleado = empleadoRepository.findByCedula(empleado.getCedula());
 	        if (!optionalEmpleado.isPresent()) {
 	            empleado.setContrasenna(encoder.encode(empleado.getContrasenna()));
 
-	            Optional<Rol> basic = rolRepository.findById(2L);
+	            Optional<Rol> basic = rolRepository.findById(empleado.getRol().getId_rol());
 	            if (basic.isPresent()) {
 	                empleado.setRol(basic.get());
 	                empleadoRepository.save(empleado);
