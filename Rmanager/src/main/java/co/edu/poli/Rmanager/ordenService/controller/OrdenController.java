@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
+import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.service.PedidoService;
 
@@ -136,6 +137,13 @@ public class OrdenController {
 		
 	}
 	
-	
+	// get estado del pedido
+	@PreAuthorize("hasRol('admin')")
+	@GetMapping("/estadoPedido/{id}")
+	public ResponseEntity<EstadoDTO> getEstadoDelpedido(@PathVariable Long id){
+		
+		return ResponseEntity.ok(pedidoService.getEstadoOfPedido(id));
+		
+	}
 	
 }
