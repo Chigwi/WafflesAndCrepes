@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.poli.Rmanager.menuService.model.dto.ProductoDisponibleDTO;
+import co.edu.poli.Rmanager.menuService.model.dto.ProductoMenuDelDiaDTO;
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
@@ -100,6 +101,18 @@ public class ProductosService {
 		Producto producto = bringProducto(updateProducto.getIdProducto());
 		
 		producto.setDisponible(updateProducto.getDisponible());
+		
+		productoRepository.save(producto);
+		
+		return updateProducto;
+		
+	}
+	
+	public ProductoMenuDelDiaDTO changeMenuDelDia(ProductoMenuDelDiaDTO updateProducto) {
+		
+		Producto producto = bringProducto(updateProducto.getIdProducto());
+		
+		producto.setEs_menu_del_dia(updateProducto.getDisponible());
 		
 		productoRepository.save(producto);
 		
