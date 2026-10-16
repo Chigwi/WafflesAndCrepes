@@ -99,7 +99,7 @@ public class MenuController {
 				
 				//PUT
 				@PreAuthorize("hasRole('admin')")
-			    @PutMapping("/{id}")
+			    @PutMapping("/detalleProducto/{id}")
 			    public ResponseEntity<Detalle_producto> update(@PathVariable Long id, @RequestBody Detalle_producto updateDetalleProducto){
 			        return ResponseEntity.ok(productoService.updateDetalleProducto(updateDetalleProducto));
 			    }
