@@ -8,7 +8,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
+import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
+import co.edu.poli.Rmanager.menuService.repository.ProductoRepository;
 import co.edu.poli.Rmanager.ordenService.enums.Estados;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Estado;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Historial_estado;
@@ -25,6 +28,7 @@ import co.edu.poli.Rmanager.ordenService.repository.MesaRepository;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
+import jakarta.transaction.Transactional;
 
 
 @Service
@@ -48,15 +52,18 @@ public class PedidoService {
 	@Autowired
 	private MesaRepository mesaRepository;
 	
-	//create pedido
+	@Autowired
+	private DetalleProductoRepository detalleProductoRepository;
 	
+	@Autowired
+	private ProductoRepository productoRepository;
 	
 	public PedidoService(PedidoRepository pedidoRepository) {
 		super();
 		this.pedidoRepository = pedidoRepository;
 	}
 	
-	
+	//create pedido
 	
 	public Pedido createPedido(PedidoInsertDTO pedidoDTO) {
 		
@@ -149,6 +156,7 @@ public class PedidoService {
 	}
 	
 	//get estado de un pedido
+	
 	public EstadoDTO getEstadoOfPedido(Long idPedido) {
 		Optional<Pedido> pedido = pedidoRepository.findById(idPedido);
 		
@@ -170,11 +178,13 @@ public class PedidoService {
 	
 	
 	//get pedidos by estado
+	
 	public List<Optional<Pedido>> getPedidoByEstado(String estado){
     	return pedidoRepository.findAllByEstado(estado);
     }
 	
 	//get pedidos with estado "disponible"
+	
 	public List<Optional<Pedido>> getPedidosPendientes(){
     	return pedidoRepository.findAllByEstado("pendiente");
     }
@@ -293,6 +303,38 @@ public class PedidoService {
 		}
 	}
 	
+	//add producto(S) to pedido
+	@Transactional
+	public Pedido addProductosToPedido(List<Detalle_producto> productos, Long idPedido) {
+		
+		Pedido current = bringPedido(idPedido);
+		
+		Double total = current.getPrecio_total() != null ? current.getPrecio_total() : 0.0;
+		
+		for (Detalle_producto detalle_producto : productos) {
+			
+			Producto actual = bringProducto(detalle_producto.getProducto().getId_producto());
+			
+			detalle_producto.setProducto(actual);
+			
+			detalle_producto.setPedido(current);
+			
+			current.getProductos().add(detalle_producto);
+			
+			total += actual.getPrecio();
+			
+		}
+		
+		current.setPrecio_total(total);
+		
+		return pedidoRepository.save(current);
+		
+	}
+	
+	//remove producto(S) from pedido
+	
+
+	
 	//*****************
 	// METODOS PRIVADOS
 	//*****************
@@ -341,6 +383,54 @@ public class PedidoService {
 			Estado estado = optionalEstado.get();
 			
 			return estado;
+			
+		}else {
+			
+			return null;
+			
+		}
+	}
+	
+	//trae un pedido de la base de datos
+	private Pedido bringPedido (Long idPedido) {
+		
+		if(pedidoRepository.existsById(idPedido)) {
+			
+			Optional <Pedido> optionalPedido = pedidoRepository.findById(idPedido);
+			
+			if(optionalPedido.isPresent()) {
+				
+				Pedido pedido = optionalPedido.get();
+				
+				return pedido;
+				
+			}else {
+				return null;
+			}
+			
+		}else {
+			return null;
+		}
+	}
+	
+	//trae un producto de la base de datos
+	private Producto bringProducto (Long idProducto) {
+		
+		if(productoRepository.existsById(idProducto)) {
+			
+			Optional<Producto> optionalProducto = productoRepository.findById(idProducto);
+			
+			if(optionalProducto.isPresent()) {
+			
+				Producto producto = optionalProducto.get();
+				
+				return producto;
+				
+			}else {
+				
+				return null;
+				
+			}
 			
 		}else {
 			
