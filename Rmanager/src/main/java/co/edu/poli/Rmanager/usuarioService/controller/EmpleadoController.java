@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,17 @@ public class EmpleadoController {
 	@GetMapping("/empleados/{id}")
 	public ResponseEntity<Optional<Empleado>> getThisEmpleado(@PathVariable Long id){
 		return ResponseEntity.ok(empleadoService.getUsuarioById(id));
+	}
+	
+	@PreAuthorize("hasRole('admin')")
+	@DeleteMapping("/empleados/{id}")
+	public ResponseEntity<String> delete(@PathVariable Long id){
+		boolean deleted = empleadoService.deleteEmpleado(id);
+		if (deleted) {
+			return ResponseEntity.noContent().build();
+		} else {
+			return ResponseEntity.notFound().build(); 
+		}
 	}
 	
 }

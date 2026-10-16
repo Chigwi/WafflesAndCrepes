@@ -101,5 +101,7 @@ public class EmpleadoService implements UserDetailsService{
 	 public UserDetails loadUserByUsername(String cedula) throws UsernameNotFoundException {
 		return loadByCedula(cedula);
 	 }
+
+
 	
 }
