@@ -3,6 +3,7 @@ package co.edu.poli.Rmanager.usuarioService.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
@@ -121,6 +122,12 @@ public class EmpleadoService implements UserDetailsService{
 			}
 			
 			return false;
+	 }
+
+
+
+	 public Empleado updateEmpleado(Empleado empleado) {
+		return empleadoRepository.save(empleado);
 	 }
 
 

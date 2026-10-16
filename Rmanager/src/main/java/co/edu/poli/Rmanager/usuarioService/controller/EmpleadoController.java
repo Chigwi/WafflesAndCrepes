@@ -62,7 +62,7 @@ public class EmpleadoController {
 		}
 	}
 	
-	@PutMapping("/empleados/{id}")
+	@PutMapping("/empleados/rol/{id}")
 	public ResponseEntity<String> updateRol(@PathVariable Long id, @RequestBody Rol rol){
 		boolean updated = empleadoService.updateRol(id, rol);
 		if(updated) {
@@ -70,6 +70,11 @@ public class EmpleadoController {
 		}else {
 			return ResponseEntity.notFound().build();
 		}
+	}
+	
+	@PutMapping("/empleados/{id}")
+	public ResponseEntity<Empleado> updateContrasenna(@PathVariable Long id, Empleado empleado){
+			return ResponseEntity.ok(empleadoService.updateEmpleado(empleado));
 	}
 	
 }
