@@ -1,5 +1,11 @@
 package co.edu.poli.Rmanager.ordenService.repository;
 
-public interface EstadoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import co.edu.poli.Rmanager.ordenService.model.Entity.Estado;
+
+@Repository
+public interface EstadoRepository extends JpaRepository<Estado, Long>{
 
 }

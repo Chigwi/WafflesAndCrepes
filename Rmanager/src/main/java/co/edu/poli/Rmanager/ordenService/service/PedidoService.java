@@ -1,5 +1,7 @@
 package co.edu.poli.Rmanager.ordenService.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,13 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
+import co.edu.poli.Rmanager.ordenService.enums.Estados;
+import co.edu.poli.Rmanager.ordenService.model.Entity.Estado;
+import co.edu.poli.Rmanager.ordenService.model.Entity.Historial_estado;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
+import co.edu.poli.Rmanager.ordenService.repository.EstadoRepository;
+import co.edu.poli.Rmanager.ordenService.repository.Historial_estadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
 import co.edu.poli.Rmanager.ordenService.repository.PedidoRepository;
+import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
+import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
 
 
 @Service
@@ -24,6 +33,15 @@ public class PedidoService {
 	
 	@Autowired
 	private IncidenteRepository incidenteRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
+	
+	@Autowired
+	private Historial_estadoRepository historialEstadoRepository;
+	
+	@Autowired
+	private EmpleadoRepository empleadoRepository;
 	
 	//create pedido
 	
@@ -159,6 +177,65 @@ public class PedidoService {
 	}
 
 	//actualizar estado de un pedido
-	
-	
+	public EstadoDTO updateEstadoOfPedido (Long idPedido, Long idEstado, Long idEmpleado) {
+		
+		//trae pedido de base de datos
+		Optional<Pedido> optionalPedido = pedidoRepository.findById(idPedido);
+		
+		//verifica existencia del pedido
+		if(optionalPedido.isPresent()) {
+
+			Pedido pedido = optionalPedido.get();
+			
+			//trae estado actual del pedido
+			Long current = pedido.getEstado().getId_estado();
+			
+			//verifica validez del cambio del estado (unicamente orden ascendente)
+			if(current < idEstado && idEstado < 4 ) {
+				
+				//trae el nuevo estado desde la base de datos con su id
+				Estado newEstado = estadoRepository.findById(idEstado).get();
+				
+				//se cambia el estado en el pedido
+				pedido.setEstado(newEstado);
+				
+				//se trae al empleado que hizo el cambio de estado
+				Empleado empleadoActual = empleadoRepository.findById(idEmpleado).get();
+				
+				LocalDateTime horaCambio = LocalDateTime.now();
+				
+				//se crea el historial para guardar el cambio de estado
+				Historial_estado estadoChange = new Historial_estado();
+				
+				estadoChange.setId_pedido(pedido);
+				
+				estadoChange.setEstado(newEstado);
+				
+				estadoChange.setFecha(horaCambio);
+				
+				estadoChange.setEmpleado_que_relevo(empleadoActual);
+				
+				//se guarda el cambio de estado
+				historialEstadoRepository.save(estadoChange);
+				
+				//se cambia la fecha de actualización del pedido
+				pedido.setFecha_ultima_actualizacion(horaCambio);
+				
+				pedidoRepository.save(pedido);
+				
+				return getEstadoOfPedido(idPedido);
+				
+				
+			}else {
+				
+				return getEstadoOfPedido(idPedido);
+				
+			}
+			
+			
+		}else {
+			return null;
+		}
+	}
 }
+

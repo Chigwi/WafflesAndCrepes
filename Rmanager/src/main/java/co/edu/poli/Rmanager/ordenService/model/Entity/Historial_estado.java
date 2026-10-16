@@ -2,6 +2,7 @@ package co.edu.poli.Rmanager.ordenService.model.Entity;
 
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import jakarta.persistence.CascadeType;
@@ -40,7 +41,7 @@ public class Historial_estado {
 	private Estado estado;
 	
 	@Column(name = "fecha")
-	private Date fecha;
+	private LocalDateTime fecha;
 	
 	@ManyToOne
 	@JoinColumn(name = "empleado_que_relevo")
