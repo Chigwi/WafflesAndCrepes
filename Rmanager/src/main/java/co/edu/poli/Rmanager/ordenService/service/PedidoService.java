@@ -85,7 +85,9 @@ public class PedidoService {
 	    return false;  // Returns false if ID not found
 	}
 	
-	//update pedido
+	//update pedido 
+	
+	// ELIMINAR UPDATE PEDIDO Y REMPLAZAR POR METODOS GRANULARES DE ACTUALIZACION POR ATRIBUTO
 	
 	public Pedido updatePedido(Pedido newPedido) {
 		
