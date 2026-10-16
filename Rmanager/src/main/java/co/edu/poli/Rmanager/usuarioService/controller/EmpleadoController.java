@@ -20,7 +20,7 @@ import co.edu.poli.Rmanager.usuarioService.service.EmpleadoService;
 
 @RestController
 @RequestMapping("api/empleado")
-/*@EnableMethodSecurity*/
+@EnableMethodSecurity
 public class EmpleadoController {
 
 	@Autowired
