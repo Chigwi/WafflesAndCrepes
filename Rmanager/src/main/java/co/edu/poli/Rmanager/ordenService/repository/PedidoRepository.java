@@ -6,10 +6,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
+import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 
 
 @Repository
@@ -21,5 +23,30 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 
 	/*@Query("SELECT p FROM Pedido p WHERE p.estado.nombre = disponible")
 	public List<Optional<Pedido>> findAllByPedidosPendientes ();*/
-
+	
+	@Query("""
+		    SELECT new co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO(
+		        mesero.nombre, mesa.id, estado.nombre)
+		    FROM Pedido p
+		    JOIN p.mesero mesero
+		    JOIN p.mesa mesa
+		    JOIN p.estado estado
+		    WHERE mesero.id_empleado = :idEmpleado
+		      AND estado.nombre <> 'Entregado'
+		    """)
+	public List<MesaActivaDTO> findMesasActivaByEmpleado (@Param ("idEmpleado") Long idEmpleado);
+	
+	
+	@Query("""  
+			SELECT new co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO(
+				mesero.nombre, mesa.id, estado.nombre)
+			FROM Pedido p
+			JOIN p.mesero mesero
+			JOIN p.mesa mesa
+			JOIN p.estado estado
+			WHERE estado.nombre <> 'Entregado'
+			""")
+	public List<MesaActivaDTO> findAllMesasActivas();
+	
+	
 }
