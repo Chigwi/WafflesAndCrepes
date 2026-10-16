@@ -37,7 +37,7 @@ public class EmpleadoController {
 		}else {
 			return ResponseEntity.badRequest().body("Usuario ya existe en el sistema");
 		}
-	}// merge count = 1;
+	}// merge count = 2;
 	
 	@PreAuthorize("hasRole('admin')")
 	@GetMapping
