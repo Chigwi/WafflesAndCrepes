@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
+import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.service.PedidoService;
 
 @RestController
@@ -29,7 +30,7 @@ public class OrdenController {
 	@Autowired
 	private PedidoService pedidoService;
 	
-	
+	//crear
 	@PreAuthorize("hasRol('admin')")
 	@PostMapping("/{id}")
 	public ResponseEntity<Pedido> create(@RequestBody Pedido pedido){
@@ -39,6 +40,8 @@ public class OrdenController {
 		return ResponseEntity.ok(saved);
 	}
 	
+	//get all
+	
 	@PreAuthorize("hasRol('admin')")
 	@GetMapping
 	public ResponseEntity<List<Pedido>> getAll(){
@@ -46,7 +49,7 @@ public class OrdenController {
 		return ResponseEntity.ok(pedidoService.getAllPedidos());
 		
 	}
-	
+	//get by id
 	@PreAuthorize("hasRol('admin')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Pedido>> getById(@PathVariable Long id){
@@ -55,6 +58,7 @@ public class OrdenController {
 		
 	}
 
+	//delete
 	
 	@PreAuthorize("hasRol('admin')")
 	@DeleteMapping("/{id}")
@@ -74,8 +78,10 @@ public class OrdenController {
 		
 	}
 	
+	//update mesa
+	
 	@PreAuthorize("hasRol('admin')")
-	@PutMapping("/{id}/mesa")
+	@PutMapping("/mesa/{id}")
 	public ResponseEntity<String>updateMesa (@PathVariable Long id, @RequestBody Mesa mesa){
 		
 		boolean updatedMesa = pedidoService.updateMesaFromPedido(id, mesa);
@@ -92,8 +98,10 @@ public class OrdenController {
 		
 	}
 	
+	//add incidente
+	
 	@PreAuthorize("hasRol('admin')")
-	@PutMapping("/{id}/incidente")
+	@PutMapping("/incidente/{id}")
 	public ResponseEntity<String>updateIncidente (@PathVariable Long id, @RequestBody String incidente){
 		
 		boolean updateIncidente = pedidoService.addIncidenteToPedido(id, incidente);
@@ -107,6 +115,22 @@ public class OrdenController {
 			return ResponseEntity.notFound().build();
 			
 		}
+	}
+	
+	@PreAuthorize("hasRol('admin')")
+	@GetMapping("/mesasEmpleado/{id}")
+	public ResponseEntity<List<MesaActivaDTO>> getMesasByEmpleado(@PathVariable Long id){
+		
+		return ResponseEntity.ok(pedidoService.getMesasByEmpleado(id));
+		
+	}
+	
+	@PreAuthorize("hasRol('admin')")
+	@GetMapping("/mesasActivas")
+	public ResponseEntity<List<MesaActivaDTO>> getMesasByEmpleado(){
+		
+		return ResponseEntity.ok(pedidoService.getAllMesasActivas());
+		
 	}
 	
 	
