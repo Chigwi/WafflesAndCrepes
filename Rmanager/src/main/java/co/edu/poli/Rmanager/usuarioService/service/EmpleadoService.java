@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.security.AppUserDetails;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
@@ -100,6 +101,26 @@ public class EmpleadoService implements UserDetailsService{
 	 @Override
 	 public UserDetails loadUserByUsername(String cedula) throws UsernameNotFoundException {
 		return loadByCedula(cedula);
+	 }
+
+
+
+	 public boolean updateRol(Long id, Rol rol) {
+			
+			Optional<Empleado> optionalEmpleado = empleadoRepository.findById(id);
+			
+			if(optionalEmpleado.isPresent()) {
+				
+				Empleado empleado = optionalEmpleado.get();
+				
+				empleado.setRol(rol);
+				
+				empleadoRepository.save(empleado);
+				
+				return true;
+			}
+			
+			return false;
 	 }
 
 
