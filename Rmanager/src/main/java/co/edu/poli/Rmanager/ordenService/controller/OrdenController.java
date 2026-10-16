@@ -32,7 +32,7 @@ public class OrdenController {
 	private PedidoService pedidoService;
 	
 	//crear
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@PostMapping("/{id}")
 	public ResponseEntity<Pedido> create(@RequestBody Pedido pedido){
 		
@@ -43,7 +43,7 @@ public class OrdenController {
 	
 	//get all
 	
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping
 	public ResponseEntity<List<Pedido>> getAll(){
 		
@@ -51,7 +51,7 @@ public class OrdenController {
 		
 	}
 	//get by id
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Pedido>> getById(@PathVariable Long id){
 		
@@ -61,7 +61,7 @@ public class OrdenController {
 
 	//delete
 	
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete (@PathVariable Long id){
 		
@@ -81,7 +81,7 @@ public class OrdenController {
 	
 	//update mesa
 	
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@PutMapping("/mesa/{id}")
 	public ResponseEntity<String>updateMesa (@PathVariable Long id, @RequestBody Mesa mesa){
 		
@@ -101,7 +101,7 @@ public class OrdenController {
 	
 	//add incidente
 	
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@PutMapping("/incidente/{id}")
 	public ResponseEntity<String>updateIncidente (@PathVariable Long id, @RequestBody String incidente){
 		
@@ -120,7 +120,7 @@ public class OrdenController {
 	
 	//mesas empleado
 	
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/mesasEmpleado/{id}")
 	public ResponseEntity<List<MesaActivaDTO>> getMesasByEmpleado(@PathVariable Long id){
 		
@@ -129,7 +129,7 @@ public class OrdenController {
 	}
 	
 	//mesas activas
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/mesasActivas")
 	public ResponseEntity<List<MesaActivaDTO>> getMesasByEmpleado(){
 		
@@ -138,7 +138,7 @@ public class OrdenController {
 	}
 	
 	// get estado del pedido
-	@PreAuthorize("hasRol('admin')")
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/estadoPedido/{id}")
 	public ResponseEntity<EstadoDTO> getEstadoDelpedido(@PathVariable Long id){
 		
