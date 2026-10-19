@@ -72,9 +72,16 @@ public class EmpleadoController {
 		}
 	}
 	
-	@PutMapping("/empleados/{id}")
-	public ResponseEntity<Empleado> updateContrasenna(@PathVariable Long id, Empleado empleado){
-			return ResponseEntity.ok(empleadoService.updateEmpleado(empleado));
+	@PutMapping("/empleados/contrasenna/{id}")
+	public ResponseEntity<String> updateContrasenna(@PathVariable Long id, String newContrasenna){
+		
+		boolean updated = empleadoService.updateContrasenna(id, newContrasenna);
+		if(updated) {
+			return ResponseEntity.ok("Contraseña actualizada exitosamente");
+		}else {
+			return ResponseEntity.notFound().build();
+		}
+			
 	}
 	
 }

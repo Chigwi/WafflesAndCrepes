@@ -129,6 +129,22 @@ public class EmpleadoService implements UserDetailsService{
 	 public Empleado updateEmpleado(Empleado empleado) {
 		return empleadoRepository.save(empleado);
 	 }
+	 
+	 public Boolean updateContrasenna(Long id, String contrasenna) {
+		 Optional<Empleado> optionalEmpleado = empleadoRepository.findById(id);
+		 
+		 if(optionalEmpleado.isPresent()) {
+			 Empleado empleado = optionalEmpleado.get();
+			 
+			 empleado.setContrasenna(encoder.encode(contrasenna));
+			 
+			 empleadoRepository.save(empleado);
+			 
+			 return true;
+		 }else {
+			 return false;
+		 }
+	 }
 
 
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import co.edu.poli.Rmanager.menuService.model.dto.ProductoDisponibleDTO;
 import co.edu.poli.Rmanager.menuService.model.dto.ProductoMenuDelDiaDTO;
+import co.edu.poli.Rmanager.menuService.model.dto.ProductoPrecioDTO;
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
@@ -120,6 +121,17 @@ public class ProductosService {
 		
 	}
 	
+	public ProductoPrecioDTO changeprecio(ProductoPrecioDTO updateProducto) {
+		
+		Producto producto = bringProducto(updateProducto.getIdProducto());
+		
+		producto.setPrecio(updateProducto.getPrecio());
+		
+		productoRepository.save(producto);
+		
+		return updateProducto;
+		
+	}
 	//================
 	//metodos privados
 	//================
