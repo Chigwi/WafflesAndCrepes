@@ -90,7 +90,7 @@ public class OrdenController {
 	
 	@PreAuthorize("hasRole('admin')")
 	@PutMapping("/pedido/mesa")
-	public ResponseEntity<String>updateMesa (PedidoUpdateMesaDTO mesa){
+	public ResponseEntity<String>updateMesa (@RequestBody  PedidoUpdateMesaDTO mesa){
 		
 		boolean updatedMesa = pedidoService.updateMesaFromPedido(mesa);
 		
