@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateEstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateIncidenteDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateMesaDTO;
 import co.edu.poli.Rmanager.ordenService.service.PedidoService;
@@ -85,7 +87,7 @@ public class OrdenController {
 	//update mesa
 	
 	@PreAuthorize("hasRole('admin')")
-	@PutMapping("/mesa")
+	@PutMapping("/pedido/mesa")
 	public ResponseEntity<String>updateMesa (PedidoUpdateMesaDTO mesa){
 		
 		boolean updatedMesa = pedidoService.updateMesaFromPedido(mesa);
@@ -105,7 +107,7 @@ public class OrdenController {
 	//add incidente
 	
 	@PreAuthorize("hasRole('admin')")
-	@PutMapping("/incidente")
+	@PutMapping("/pedido/incidente")
 	public ResponseEntity<String>updateIncidente (@RequestBody PedidoUpdateIncidenteDTO incidente){
 		
 		boolean updateIncidente = pedidoService.addIncidenteToPedido(incidente);
@@ -134,7 +136,7 @@ public class OrdenController {
 	//mesas activas
 	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/mesasActivas")
-	public ResponseEntity<List<MesaActivaDTO>> getMesasByEmpleado(){
+	public ResponseEntity<List<MesaActivaDTO>> getMesasActivas(){
 		
 		return ResponseEntity.ok(pedidoService.getAllMesasActivas());
 		
@@ -148,5 +150,42 @@ public class OrdenController {
 		return ResponseEntity.ok(pedidoService.getEstadoOfPedido(id));
 		
 	}
+	
+	// get pedido by estado
+	@PreAuthorize("hasRole('admin')")
+	@GetMapping("/pedido/estado")
+	public ResponseEntity<List<Optional<Pedido>>> getEstadoByPedido(@RequestBody String estado){
+		
+		return ResponseEntity.ok(pedidoService.getPedidoByEstado(estado));
+		
+	}
+	
+	// get pedidos disponibles
+	@PreAuthorize("hasRole('admin')")
+	@GetMapping("/pedido/pendientes")
+	public ResponseEntity<List<Optional<Pedido>>> getPedidosPendientes(){
+		
+		return ResponseEntity.ok(pedidoService.getPedidosPendientes());
+		
+	}
+	
+	// update estado de pedido
+	@PreAuthorize("hasRole('admin')")
+	@PutMapping("/pedido/estado")
+	public ResponseEntity<EstadoDTO>updateEstadoPedido (@RequestBody PedidoUpdateEstadoDTO estado){
+		
+		return ResponseEntity.ok(pedidoService.updateEstadoOfPedido(estado)); 
+				
+	}
+	
+	// add productos to pedido
+	@PreAuthorize("hasRole('admin')")
+	@PutMapping("/pedido/productos/add/{id}")
+	public ResponseEntity<Pedido> addProductos (@PathVariable Long id ,@RequestBody List<Detalle_producto> productos){
+		
+		return ResponseEntity.ok(pedidoService.addProductosToPedido(productos, id)); 
+				
+	}
+	
 	
 }
