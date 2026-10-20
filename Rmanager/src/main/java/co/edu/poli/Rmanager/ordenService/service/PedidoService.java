@@ -21,6 +21,7 @@ import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateEstadoDTO;
 import co.edu.poli.Rmanager.ordenService.repository.EstadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.Historial_estadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
@@ -243,7 +244,13 @@ public class PedidoService {
 	}
 
 	//actualizar estado de un pedido
-	public EstadoDTO updateEstadoOfPedido (Long idPedido, Long idEstado, Long idEmpleado) {
+	public EstadoDTO updateEstadoOfPedido (PedidoUpdateEstadoDTO uPedido) {
+		
+		Long idPedido = uPedido.getId();
+		
+		Long idEstado = uPedido.getId();
+		
+		Long idEmpleado = uPedido.getIdEmpleado();
 		
 		//trae pedido de base de datos
 		Optional<Pedido> optionalPedido = pedidoRepository.findById(idPedido);
@@ -347,6 +354,9 @@ public class PedidoService {
 	    current.setPrecio_total(total);
 	    return pedidoRepository.save(current);
 	}
+	
+	//metodo de pago functionality
+	
 
 	
 	//*****************

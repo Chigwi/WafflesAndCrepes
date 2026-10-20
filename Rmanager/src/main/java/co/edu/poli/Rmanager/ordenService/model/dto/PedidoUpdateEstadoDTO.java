@@ -12,6 +12,8 @@ public class PedidoUpdateEstadoDTO {
 	
 	private Long id;
 	
-	private Estado estado;
+	private Long idEstado;
+	
+	private Long idEmpleado;
 
 }
