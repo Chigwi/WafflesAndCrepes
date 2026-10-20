@@ -21,6 +21,7 @@ import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
 import co.edu.poli.Rmanager.usuarioService.repository.RolRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Primary
@@ -107,22 +108,17 @@ public class EmpleadoService implements UserDetailsService{
 
 
 
-	 public boolean updateRol(Long id, Rol rol) {
+	 public boolean updateRol(Long id, Long idRol) {
 			
-			Optional<Empleado> optionalEmpleado = empleadoRepository.findById(id);
+			Empleado empleado = bringEmpleado(id);
 			
-			if(optionalEmpleado.isPresent()) {
-				
-				Empleado empleado = optionalEmpleado.get();
-				
-				empleado.setRol(rol);
-				
-				empleadoRepository.save(empleado);
-				
-				return true;
-			}
+			Rol rol = bringRol(idRol);
 			
-			return false;
+			empleado.setRol(rol);
+			
+			empleadoRepository.save(empleado);
+			
+			return true;
 	 }
 
 
@@ -147,6 +143,19 @@ public class EmpleadoService implements UserDetailsService{
 		 }
 	 }
 
+	 //metodos privados
+	 
+	private Empleado bringEmpleado(Long idEmpleado) {
+	    return empleadoRepository.findById(idEmpleado)
+		            .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado: " + idEmpleado));
+	}
+	
+	private Rol bringRol(Long idRol) {
+	    return rolRepository.findById(idRol)
+	            .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado: " + idRol));
+	}
+		
+	
 
 	
 }

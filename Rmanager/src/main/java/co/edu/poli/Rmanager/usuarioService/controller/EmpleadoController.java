@@ -64,7 +64,7 @@ public class EmpleadoController {
 	}
 	
 	@PutMapping("/empleados/rol/{id}")
-	public ResponseEntity<String> updateRol(@PathVariable Long id, @RequestBody Rol rol){
+	public ResponseEntity<String> updateRol(@PathVariable Long id, @RequestBody Long rol){
 		boolean updated = empleadoService.updateRol(id, rol);
 		if(updated) {
 			return ResponseEntity.ok("Ususario actualizado exitosamente");
