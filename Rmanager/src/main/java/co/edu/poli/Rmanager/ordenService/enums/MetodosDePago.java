@@ -1,17 +1,19 @@
 package co.edu.poli.Rmanager.ordenService.enums;
 
 public enum MetodosDePago {
-	EFECTIVO{
-		public String getMetodo() {
-			return "Efectivo";
-		}
-	}, TARJETA{
-		public String getMetodo() {
-			return "Tarjeta";
-		}
-	}, BREB{
-		public String getMetodo() {
-			return "Bre-b";
-		}
-	}
+
+    EFECTIVO("Efectivo"),
+    TARJETA("Tarjeta"),
+    BREB("Bre-b");
+
+    
+    private final String metodo;
+
+    MetodosDePago(String estado) {
+        this.metodo = estado;
+    }
+
+    public String getEstado() {
+        return metodo;
+    }
 }
