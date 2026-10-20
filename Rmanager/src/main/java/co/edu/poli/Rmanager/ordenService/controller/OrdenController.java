@@ -40,7 +40,7 @@ public class OrdenController {
 	
 	//crear
 	@PreAuthorize("hasRole('admin')")
-	@PostMapping("/{id}")
+	@PostMapping("/pedido")
 	public ResponseEntity<Pedido> create(@RequestBody PedidoInsertDTO pedido){
 		
 		Pedido saved = pedidoService.createPedido(pedido);
@@ -146,7 +146,7 @@ public class OrdenController {
 	
 	// get estado del pedido
 	@PreAuthorize("hasRole('admin')")
-	@GetMapping("/estadoPedido/{id}")
+	@GetMapping("/pedido/estado/{id}")
 	public ResponseEntity<EstadoDTO> getEstadoDelpedido(@PathVariable Long id){
 		
 		return ResponseEntity.ok(pedidoService.getEstadoOfPedido(id));
