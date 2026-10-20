@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.security.AppUserDetails;
+import co.edu.poli.Rmanager.usuarioService.model.dto.ContrasennaDTO;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.repository.EmpleadoRepository;
@@ -130,13 +131,13 @@ public class EmpleadoService implements UserDetailsService{
 		return empleadoRepository.save(empleado);
 	 }
 	 
-	 public Boolean updateContrasenna(Long id, String contrasenna) {
-		 Optional<Empleado> optionalEmpleado = empleadoRepository.findById(id);
+	 public Boolean updateContrasenna(ContrasennaDTO contrasennaDTO) {
+		 Optional<Empleado> optionalEmpleado = empleadoRepository.findById(contrasennaDTO.getId());
 		 
 		 if(optionalEmpleado.isPresent()) {
 			 Empleado empleado = optionalEmpleado.get();
 			 
-			 empleado.setContrasenna(encoder.encode(contrasenna));
+			 empleado.setContrasenna(encoder.encode(contrasennaDTO.getContrasenna()));
 			 
 			 empleadoRepository.save(empleado);
 			 

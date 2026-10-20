@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.poli.Rmanager.usuarioService.model.dto.ContrasennaDTO;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.service.EmpleadoService;
@@ -72,10 +73,10 @@ public class EmpleadoController {
 		}
 	}
 	
-	@PutMapping("/empleados/contrasenna/{id}")
-	public ResponseEntity<String> updateContrasenna(@PathVariable Long id, String newContrasenna){
+	@PutMapping("/empleados/contrasenna")
+	public ResponseEntity<String> updateContrasenna(@RequestBody ContrasennaDTO contrasennaDTO){
 		
-		boolean updated = empleadoService.updateContrasenna(id, newContrasenna);
+		boolean updated = empleadoService.updateContrasenna(contrasennaDTO);
 		if(updated) {
 			return ResponseEntity.ok("Contraseña actualizada exitosamente");
 		}else {
