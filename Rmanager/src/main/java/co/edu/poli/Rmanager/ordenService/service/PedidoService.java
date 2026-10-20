@@ -222,7 +222,7 @@ public class PedidoService {
 	}
 	
 	//add incidente to pedido
-	public PedidoUpdateIncidenteDTO addIncidenteToPedido(PedidoUpdateIncidenteDTO pedidoIncidente) {
+	public Incidente addIncidenteToPedido(PedidoUpdateIncidenteDTO pedidoIncidente) {
 		
 		Pedido pedido = bringPedido(pedidoIncidente.getId());
 		
@@ -232,15 +232,8 @@ public class PedidoService {
 		
 		incidente.setDescripcion(pedidoIncidente.getIncidente());
 		
-		Incidente saved = incidenteRepository.save(incidente);
+		return incidenteRepository.save(incidente);
 		
-		PedidoUpdateIncidenteDTO savedI = new PedidoUpdateIncidenteDTO();
-		
-		savedI.setId(saved.getPedido().getId_pedido());
-		
-		savedI.setIncidente(saved.getDescripcion());
-		
-		return savedI;
 	}
 
 	//actualizar estado de un pedido
