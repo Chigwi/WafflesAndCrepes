@@ -22,6 +22,7 @@ import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateEstadoDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateIncidenteDTO;
 import co.edu.poli.Rmanager.ordenService.repository.EstadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.Historial_estadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
@@ -221,26 +222,25 @@ public class PedidoService {
 	}
 	
 	//add incidente to pedido
-	public boolean addIncidenteToPedido(Long pedidoId, String descripcion) {
+	public PedidoUpdateIncidenteDTO addIncidenteToPedido(PedidoUpdateIncidenteDTO pedidoIncidente) {
 		
-		Optional<Pedido> optionalPedido = pedidoRepository.findById(pedidoId);
+		Pedido pedido = bringPedido(pedidoIncidente.getId());
 		
-		if(optionalPedido.isPresent()) {
-			
-			Pedido pedido = optionalPedido.get();
-			
-			Incidente incidente = new Incidente();
-			
-			incidente.setPedido(pedido);
-			
-			incidente.setDescripcion(descripcion);
-			
-			incidenteRepository.save(incidente);
-			
-			return true;
-		}
+		Incidente incidente = new Incidente();
 		
-		return false;
+		incidente.setPedido(pedido);
+		
+		incidente.setDescripcion(pedidoIncidente.getIncidente());
+		
+		Incidente saved = incidenteRepository.save(incidente);
+		
+		PedidoUpdateIncidenteDTO savedI = new PedidoUpdateIncidenteDTO();
+		
+		savedI.setId(saved.getPedido().getId_pedido());
+		
+		savedI.setIncidente(saved.getDescripcion());
+		
+		return savedI;
 	}
 
 	//actualizar estado de un pedido

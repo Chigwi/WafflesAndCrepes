@@ -12,6 +12,6 @@ public class PedidoUpdateIncidenteDTO {
 	
 	private Long id;
 	
-	private Incidente incidente;
+	private String incidente;
 
 }
