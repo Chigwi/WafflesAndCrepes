@@ -13,6 +13,7 @@ import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
 import co.edu.poli.Rmanager.menuService.repository.ProductoRepository;
 import co.edu.poli.Rmanager.ordenService.enums.Estados;
+import co.edu.poli.Rmanager.ordenService.enums.MetodosDePago;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Estado;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Historial_estado;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
@@ -21,8 +22,10 @@ import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoPrintMetodoDePagoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateEstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateIncidenteDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateMetodoDePagoDTO;
 import co.edu.poli.Rmanager.ordenService.repository.EstadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.Historial_estadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.IncidenteRepository;
@@ -349,7 +352,60 @@ public class PedidoService {
 	}
 	
 	//metodo de pago functionality
-	
+	public PedidoPrintMetodoDePagoDTO updateMetodoDePago (PedidoUpdateMetodoDePagoDTO uPedido) {
+		
+		Pedido pedido = bringPedido(uPedido.getIdPedido());
+		
+		String metodoDePago = "";
+		
+		PedidoPrintMetodoDePagoDTO saved = new PedidoPrintMetodoDePagoDTO();
+		
+		saved.setIdPedido(uPedido.getIdPedido());
+		
+		LocalDateTime now = LocalDateTime.now();
+		
+		byte key = uPedido.getIdMetodo();
+		switch (key) {
+			case 1: {
+				
+				metodoDePago = MetodosDePago.EFECTIVO.getMetodo();
+				
+				pedido.setMetodo_de_pago(metodoDePago);
+				
+				saved.setMetodoDePago(metodoDePago);
+				
+				break;
+			}
+			case 2:{
+				
+				metodoDePago = MetodosDePago.TARJETA.getMetodo();
+				
+				pedido.setMetodo_de_pago(metodoDePago);
+				
+				saved.setMetodoDePago(metodoDePago);
+				
+				break;
+			}
+			case 3:{
+				
+				metodoDePago = MetodosDePago.BREB.getMetodo();
+				
+				pedido.setMetodo_de_pago(metodoDePago);
+				
+				saved.setMetodoDePago(metodoDePago);
+				
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Metodo de pago invalido");
+			}
+		
+		pedido.setFecha_ultima_actualizacion(now);
+		
+		pedidoRepository.save(pedido);
+		
+		return saved;
+	}
 
 	
 	//*****************

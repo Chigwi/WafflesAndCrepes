@@ -13,7 +13,7 @@ public enum MetodosDePago {
         this.metodo = estado;
     }
 
-    public String getEstado() {
+    public String getMetodo() {
         return metodo;
     }
 }
