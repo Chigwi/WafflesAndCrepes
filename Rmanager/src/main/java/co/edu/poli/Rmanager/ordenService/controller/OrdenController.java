@@ -22,9 +22,11 @@ import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoPrintMetodoDePagoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateEstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateIncidenteDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateMesaDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateMetodoDePagoDTO;
 import co.edu.poli.Rmanager.ordenService.service.PedidoService;
 
 @RestController
@@ -187,5 +189,21 @@ public class OrdenController {
 				
 	}
 	
+	// remove productos from pedido
+
+	@PreAuthorize("hasRole('admin')")
+	@PutMapping("/pedido/productos/remove/{id}")
+	public ResponseEntity<Pedido> removeProductos (@PathVariable Long id ,@RequestBody List<Long> productos){
+		
+		return ResponseEntity.ok(pedidoService.removeProductosFromPedido(productos, id)); 
+	}
+	
+	// update metodo de pago
+	@PreAuthorize("hasRole('admin')")
+	@PutMapping("/pedido/metodoDePago")
+	public ResponseEntity<PedidoPrintMetodoDePagoDTO> updateMetodoDePago (@RequestBody PedidoUpdateMetodoDePagoDTO pedido){
+		
+		return ResponseEntity.ok(pedidoService.updateMetodoDePago(pedido)); 
+	}
 	
 }
