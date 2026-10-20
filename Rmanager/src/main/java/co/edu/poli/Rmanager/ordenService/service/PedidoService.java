@@ -25,6 +25,7 @@ import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoPrintMetodoDePagoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateEstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateIncidenteDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateMesaDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateMetodoDePagoDTO;
 import co.edu.poli.Rmanager.ordenService.repository.EstadoRepository;
 import co.edu.poli.Rmanager.ordenService.repository.Historial_estadoRepository;
@@ -155,11 +156,11 @@ public class PedidoService {
 	
 	// ELIMINAR UPDATE PEDIDO Y REMPLAZAR POR METODOS GRANULARES DE ACTUALIZACION POR ATRIBUTO
 	
-	public Pedido updatePedido(Pedido newPedido) {
+	/*public Pedido updatePedido(Pedido newPedido) {
 		
 		return pedidoRepository.save(newPedido);
 		
-	}
+	}*/
 	
 	//get estado de un pedido
 	
@@ -206,13 +207,17 @@ public class PedidoService {
 	}
 	
 	//change pedido's mesa
-	public boolean updateMesaFromPedido (Long pedidoId, Mesa mesa) {
+	public boolean updateMesaFromPedido (PedidoUpdateMesaDTO uPedido) {
 		
-		Optional<Pedido> optionalPedido = pedidoRepository.findById(pedidoId);
+		Long idPedido = uPedido.getId();
 		
-		if(optionalPedido.isPresent()) {
+		Long idMesa = uPedido.getIdmesa();
+		
+		if(pedidoRepository.existsById(idPedido) && mesaRepository.existsById(idMesa)) {
 			
-			Pedido pedido = optionalPedido.get();
+			Pedido pedido = bringPedido(idPedido);
+			
+			Mesa mesa = bringMesa(idMesa);
 			
 			pedido.setMesa(mesa);
 			
@@ -225,18 +230,26 @@ public class PedidoService {
 	}
 	
 	//add incidente to pedido
-	public Incidente addIncidenteToPedido(PedidoUpdateIncidenteDTO pedidoIncidente) {
+	public boolean addIncidenteToPedido(PedidoUpdateIncidenteDTO uPedido) {
 		
-		Pedido pedido = bringPedido(pedidoIncidente.getId());
+		Optional<Pedido> optionalPedido = pedidoRepository.findById(uPedido.getId());
 		
-		Incidente incidente = new Incidente();
+		if(optionalPedido.isPresent()) {
+			
+			Pedido pedido = optionalPedido.get();
+			
+			Incidente incidente = new Incidente();
+			
+			incidente.setPedido(pedido);
+			
+			incidente.setDescripcion(uPedido.getIncidente());
+			
+			incidenteRepository.save(incidente);
+			
+			return true;
+		}
 		
-		incidente.setPedido(pedido);
-		
-		incidente.setDescripcion(pedidoIncidente.getIncidente());
-		
-		return incidenteRepository.save(incidente);
-		
+		return false;
 	}
 
 	//actualizar estado de un pedido

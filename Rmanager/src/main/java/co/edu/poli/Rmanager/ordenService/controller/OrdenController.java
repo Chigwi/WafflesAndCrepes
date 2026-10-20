@@ -20,6 +20,9 @@ import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateIncidenteDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateMesaDTO;
 import co.edu.poli.Rmanager.ordenService.service.PedidoService;
 
 @RestController
@@ -34,7 +37,7 @@ public class OrdenController {
 	//crear
 	@PreAuthorize("hasRole('admin')")
 	@PostMapping("/{id}")
-	public ResponseEntity<Pedido> create(@RequestBody Pedido pedido){
+	public ResponseEntity<Pedido> create(@RequestBody PedidoInsertDTO pedido){
 		
 		Pedido saved = pedidoService.createPedido(pedido);
 		
@@ -82,10 +85,10 @@ public class OrdenController {
 	//update mesa
 	
 	@PreAuthorize("hasRole('admin')")
-	@PutMapping("/mesa/{id}")
-	public ResponseEntity<String>updateMesa (@PathVariable Long id, @RequestBody Mesa mesa){
+	@PutMapping("/mesa")
+	public ResponseEntity<String>updateMesa (PedidoUpdateMesaDTO mesa){
 		
-		boolean updatedMesa = pedidoService.updateMesaFromPedido(id, mesa);
+		boolean updatedMesa = pedidoService.updateMesaFromPedido(mesa);
 		
 		if(updatedMesa) {
 			
@@ -102,10 +105,10 @@ public class OrdenController {
 	//add incidente
 	
 	@PreAuthorize("hasRole('admin')")
-	@PutMapping("/incidente/{id}")
-	public ResponseEntity<String>updateIncidente (@PathVariable Long id, @RequestBody String incidente){
+	@PutMapping("/incidente")
+	public ResponseEntity<String>updateIncidente (@RequestBody PedidoUpdateIncidenteDTO incidente){
 		
-		boolean updateIncidente = pedidoService.addIncidenteToPedido(id, incidente);
+		boolean updateIncidente = pedidoService.addIncidenteToPedido(incidente);
 		
 		if(updateIncidente) {
 			

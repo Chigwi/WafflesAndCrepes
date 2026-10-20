@@ -12,7 +12,7 @@ public class PedidoUpdateMesaDTO {
 	
 	private Long id;
 	
-	private Mesa mesa;
+	private Long idmesa;
 	
 
 }
