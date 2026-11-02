@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.poli.Rmanager.usuarioService.model.dto.ContrasennaDTO;
+import co.edu.poli.Rmanager.usuarioService.model.dto.EmpleadoDTO;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Empleado;
 import co.edu.poli.Rmanager.usuarioService.model.entity.Rol;
 import co.edu.poli.Rmanager.usuarioService.service.EmpleadoService;
@@ -85,4 +87,17 @@ public class EmpleadoController {
 			
 	}
 	
+	@GetMapping("/login")
+	public ResponseEntity<Empleado> login (@RequestBody EmpleadoDTO empleadoDTO){
+		
+		try {
+			
+			return ResponseEntity.ok(empleadoService.getUsuarioByUsername(empleadoDTO.getCedula()).get());
+			
+		}catch(UsernameNotFoundException e) {
+			
+			return null;
+			
+		}
+	}
 }
