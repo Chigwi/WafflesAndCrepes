@@ -51,4 +51,13 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	public List<MesaActivaDTO> findAllMesasActivas();
 	
 	
+	@Query("""
+		    SELECT p
+		    FROM Pedido p
+		    WHERE p.mesero.id_empleado = :idEmpleado
+		    ORDER BY p.fecha_creacion DESC
+		    """)
+		List<Pedido> findPedidosByEmpleado(@Param("idEmpleado") Long idEmpleado);
+	
+	
 }

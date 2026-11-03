@@ -421,6 +421,10 @@ public class PedidoService {
 	}
 
 	
+	public List<Pedido> getPedidoByEmpleado(Long idEmpleado) {
+		return pedidoRepository.findPedidosByEmpleado(idEmpleado);
+	}
+	
 	//*****************
 	// METODOS PRIVADOS
 	//*****************

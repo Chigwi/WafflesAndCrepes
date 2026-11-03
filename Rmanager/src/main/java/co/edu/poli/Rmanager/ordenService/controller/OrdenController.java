@@ -206,4 +206,13 @@ public class OrdenController {
 		return ResponseEntity.ok(pedidoService.updateMetodoDePago(pedido)); 
 	}
 	
+	
+	// get pedidos by empleado id
+	@PreAuthorize("hasRole('admin')")
+	@GetMapping("/pedido/empleado/{id}")
+	public ResponseEntity<List<Pedido>> getPedidosByEmpleado(@PathVariable Long id){
+		
+		return ResponseEntity.ok(pedidoService.getPedidoByEmpleado(id));
+		
+	}
 }
