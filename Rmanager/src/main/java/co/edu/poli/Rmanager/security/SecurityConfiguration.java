@@ -44,7 +44,7 @@ public class SecurityConfiguration {
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/empleado/login").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/empleado/login").permitAll()
 						.requestMatchers("/api/empleado/crearempleado").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/menu/**").permitAll()
 						.anyRequest().authenticated()

@@ -87,7 +87,7 @@ public class EmpleadoController {
 			
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<Empleado> login (@RequestBody EmpleadoDTO empleadoDTO){
 		
 		try {
