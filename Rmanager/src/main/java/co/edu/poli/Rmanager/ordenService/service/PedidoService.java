@@ -193,7 +193,7 @@ public class PedidoService {
 	//get pedidos with estado "disponible"
 	
 	public List<Optional<Pedido>> getPedidosPendientes(){
-    	return pedidoRepository.findAllByEstado("pendiente");
+    	return pedidoRepository.findAllByEstado("Pendiente");
     }
 	
 	//get the mesas assigned to an empleado

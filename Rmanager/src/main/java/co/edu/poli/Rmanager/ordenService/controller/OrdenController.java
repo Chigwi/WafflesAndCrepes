@@ -155,7 +155,7 @@ public class OrdenController {
 	
 	// get pedido by estado
 	@PreAuthorize("hasRole('admin')")
-	@GetMapping("/pedido/estado/{estado}")
+	@GetMapping("/pedido/estados/{estado}")
 	public ResponseEntity<List<Optional<Pedido>>> getEstadoByPedido(@PathVariable String estado){
 		
 		return ResponseEntity.ok(pedidoService.getPedidoByEstado(estado));
