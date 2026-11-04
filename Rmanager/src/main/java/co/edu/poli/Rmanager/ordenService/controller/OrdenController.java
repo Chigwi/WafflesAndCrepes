@@ -21,6 +21,7 @@ import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import co.edu.poli.Rmanager.ordenService.model.dto.EstadoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO;
+import co.edu.poli.Rmanager.ordenService.model.dto.PedidoCheckoutDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoInsertDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoPrintMetodoDePagoDTO;
 import co.edu.poli.Rmanager.ordenService.model.dto.PedidoUpdateEstadoDTO;
@@ -213,6 +214,14 @@ public class OrdenController {
 	public ResponseEntity<List<Pedido>> getPedidosByEmpleado(@PathVariable Long id){
 		
 		return ResponseEntity.ok(pedidoService.getPedidoByEmpleado(id));
+		
+	}
+	
+	@PreAuthorize("hasRole('admin')")
+	@PutMapping("/pedido/checkout")
+	public ResponseEntity<EstadoDTO> checkOutPedido(@RequestBody PedidoCheckoutDTO pedido){
+		
+		return ResponseEntity.ok(pedidoService.checkout(pedido.getIdPedido(), pedido.getIdEmpleado()));
 		
 	}
 }
