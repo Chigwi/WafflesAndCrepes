@@ -72,58 +72,26 @@ public class PedidoService {
 	
 	//create pedido
 	
-	public Pedido createPedido(PedidoInsertDTO pedidoDTO) {
-		
-		LocalDateTime creacion = LocalDateTime.now();
-		
-		Pedido pedido = new Pedido();
-		
-		//se asegura que el estado del pedido al crear sea pendiente
-		Estado nuevo = new Estado();
-				
-		nuevo.setId_estado(Estados.PENDIENTE.getId());
-		
-		nuevo.setNombre(Estados.PENDIENTE.getEstado());
-		
-		pedido.setEstado(nuevo);
-		
-		//trae al empleado que creó el pedido
-		
-		Empleado meseroEncargado;
-		if(empleadoRepository.existsById(pedidoDTO.getId_mesero())) {
-			meseroEncargado = bringEmpleado(pedidoDTO.getId_mesero());
-		}else {
-			meseroEncargado = null;
-		}
-		
-		//asigna el empleado al pedido
-		
-		pedido.setMesero(meseroEncargado);
-		
-		
-		//trae la mesa asignada al pedido
-		
-		Mesa mesaAsignada;
-		if(mesaRepository.existsById(pedidoDTO.getId_mesa())) {
-			mesaAsignada = bringMesa(pedidoDTO.getId_mesa());
-		}else {
-			mesaAsignada = null;
-		}
-		
-		//asigna la mesa al pedido
-		
-		pedido.setMesa(mesaAsignada);
+	@Transactional
+	public Pedido createPedido(PedidoInsertDTO dto) {
+	    LocalDateTime now = LocalDateTime.now();
 
-		//se asignan la hora de creacion y ultima actualización
-		
-		pedido.setFecha_creacion(creacion);
-		
-		pedido.setFecha_ultima_actualizacion(creacion);
-		
-		//guarda pedido en la base de datos y retorna
-		
-		return pedidoRepository.save(pedido);
-		
+	    Mesa mesa = bringMesa(dto.getId_mesa());          // throws if missing
+	    if (Boolean.TRUE.equals(mesa.getOcupada())) {
+	        throw new IllegalStateException("La mesa " + mesa.getId() + " ya está ocupada");
+	    }
+
+	    Pedido pedido = new Pedido();
+	    pedido.setEstado(bringEstado(Estados.PENDIENTE.getId()));
+	    pedido.setMesero(bringEmpleado(dto.getId_mesero()));  // throws if missing
+	    pedido.setMesa(mesa);
+	    pedido.setFecha_creacion(now);
+	    pedido.setFecha_ultima_actualizacion(now);
+
+	    mesa.setOcupada(true);
+	    mesaRepository.save(mesa);
+
+	    return pedidoRepository.save(pedido);
 	}
 
 	//read all pedidos
@@ -207,26 +175,37 @@ public class PedidoService {
 	}
 	
 	//change pedido's mesa
-	public boolean updateMesaFromPedido (PedidoUpdateMesaDTO uPedido) {
-		
-		Long idPedido = uPedido.getId();
-		
-		Long idMesa = uPedido.getIdmesa();
-		
-		if(pedidoRepository.existsById(idPedido) && mesaRepository.existsById(idMesa)) {
-			
-			Pedido pedido = bringPedido(idPedido);
-			
-			Mesa mesa = bringMesa(idMesa);
-			
-			pedido.setMesa(mesa);
-			
-			pedidoRepository.save(pedido);
-			
-			return true;
-		}
-		
-		return false;
+	@Transactional
+	public boolean updateMesaFromPedido(PedidoUpdateMesaDTO uPedido) {
+
+	    Pedido pedido = bringPedido(uPedido.getId());       // throws if missing
+	    Mesa nuevaMesa = bringMesa(uPedido.getIdmesa());    // throws if missing
+	    Mesa mesaAnterior = pedido.getMesa();
+
+	    // same table: nothing to do
+	    if (mesaAnterior != null && mesaAnterior.getId().equals(nuevaMesa.getId())) {
+	        return true;
+	    }
+
+	    if (Boolean.TRUE.equals(nuevaMesa.getOcupada())) {
+	        throw new IllegalStateException("La mesa " + nuevaMesa.getId() + " ya está ocupada");
+	    }
+
+	    // free the old table
+	    if (mesaAnterior != null) {
+	        mesaAnterior.setOcupada(false);
+	        mesaRepository.save(mesaAnterior);
+	    }
+
+	    // occupy the new one
+	    nuevaMesa.setOcupada(true);
+	    mesaRepository.save(nuevaMesa);
+
+	    pedido.setMesa(nuevaMesa);
+	    pedido.setFecha_ultima_actualizacion(LocalDateTime.now());
+	    pedidoRepository.save(pedido);
+
+	    return true;
 	}
 	
 	//add incidente to pedido
@@ -257,7 +236,7 @@ public class PedidoService {
 		
 		Long idPedido = uPedido.getId();
 		
-		Long idEstado = uPedido.getId();
+		Long idEstado = uPedido.getIdEstado();
 		
 		Long idEmpleado = uPedido.getIdEmpleado();
 		
@@ -424,6 +403,46 @@ public class PedidoService {
 	public List<Pedido> getPedidoByEmpleado(Long idEmpleado) {
 		return pedidoRepository.findPedidosByEmpleado(idEmpleado);
 	}
+	
+	
+	@Transactional
+	public EstadoDTO checkout(Long idPedido, Long idEmpleado) {
+	    Pedido pedido = bringPedido(idPedido);
+
+	    if (pedido.getMetodo_de_pago() == null || pedido.getMetodo_de_pago().isBlank()) {
+	        throw new IllegalStateException("No se puede finalizar: falta el método de pago");
+	    }
+	    if (pedido.getEstado().getId_estado().equals(Estados.FINALIZADO.getId())) {
+	        throw new IllegalStateException("El pedido ya está finalizado");
+	    }
+	    
+	    if (!pedido.getEstado().getId_estado().equals(Estados.ENTREGADO.getId())) {
+	        throw new IllegalStateException("El pedido aún no ha sido entregado");
+	    }
+
+	    LocalDateTime now = LocalDateTime.now();
+	    Estado finalizado = bringEstado(Estados.FINALIZADO.getId());
+
+	    pedido.setEstado(finalizado);
+	    pedido.setFecha_ultima_actualizacion(now);
+
+	    // liberar la mesa
+	    Mesa mesa = pedido.getMesa();
+	    mesa.setOcupada(false);
+	    mesaRepository.save(mesa);
+
+	    // registrar el cambio en el historial
+	    Historial_estado h = new Historial_estado();
+	    h.setId_pedido(pedido);
+	    h.setEstado(finalizado);
+	    h.setFecha(now);
+	    h.setEmpleado_que_relevo(bringEmpleado(idEmpleado));
+	    historialEstadoRepository.save(h);
+
+	    pedidoRepository.save(pedido);
+	    return getEstadoOfPedido(idPedido);
+	}
+	
 	
 	//*****************
 	// METODOS PRIVADOS

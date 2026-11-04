@@ -39,16 +39,16 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	public List<MesaActivaDTO> findMesasActivaByEmpleado (@Param ("idEmpleado") Long idEmpleado);
 	
 	//query que trae todas las mesas actualmente activas y el empleado que las esta usando
-	@Query("""  
-			SELECT new co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO(
-				mesero.nombre, mesa.id, estado.nombre)
-			FROM Pedido p
-			JOIN p.mesero mesero
-			JOIN p.mesa mesa
-			JOIN p.estado estado
-			WHERE estado.nombre <> 'Entregado'
-			""")
-	public List<MesaActivaDTO> findAllMesasActivas();
+	@Query("""
+		    SELECT new co.edu.poli.Rmanager.ordenService.model.dto.MesaActivaDTO(
+		        mesero.nombre, mesa.id, estado.nombre)
+		    FROM Pedido p
+		    JOIN p.mesero mesero
+		    JOIN p.mesa mesa
+		    JOIN p.estado estado
+		    WHERE estado.nombre NOT IN ('Entregado', 'Finalizado')
+		    """)
+		public List<MesaActivaDTO> findAllMesasActivas();
 	
 	
 	@Query("""
