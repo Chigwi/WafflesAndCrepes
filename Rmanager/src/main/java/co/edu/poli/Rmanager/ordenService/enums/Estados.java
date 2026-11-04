@@ -3,7 +3,8 @@ public enum Estados {
 
     PENDIENTE(1L, "Pendiente"),
     EN_PREPARACION(2L, "En preparacion"),
-    ENTREGADO(3L, "Entregado");
+    ENTREGADO(3L, "Entregado"),
+	FINALIZADO(4L, "Finalizado");
 
     private final Long id;
     private final String metodo;
