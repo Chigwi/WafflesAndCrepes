@@ -39,11 +39,11 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_pedido;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "mesa")
 	private Mesa mesa;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "mesero")
 	private Empleado mesero;
 	
