@@ -126,6 +126,12 @@ public class OrdenController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('admin')")
+	@GetMapping("/pedido/incidente/{id}")
+	public ResponseEntity<String> getIncidente (@PathVariable Long id){
+		return ResponseEntity.ok(pedidoService.getIncidenteById(id));
+	}
+	
 	//mesas empleado
 	
 	@PreAuthorize("hasRole('admin')")
