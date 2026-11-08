@@ -129,7 +129,8 @@ public class OrdenController {
 	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/pedido/incidente/{id}")
 	public ResponseEntity<String> getIncidente (@PathVariable Long id){
-		return ResponseEntity.ok(pedidoService.getIncidenteById(id));
+		//return ResponseEntity.ok(pedidoService.getIncidenteById(id));
+		return ResponseEntity.ok("incidente");
 	}
 	
 	//mesas empleado
