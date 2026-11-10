@@ -16,7 +16,7 @@ public interface DetalleProductoRepository extends JpaRepository<Detalle_product
 
 	
 	@Query("""
-		    SELECT new co.edu.poli.Rmanager.ordenService.model.dto.ItemPedidoDTO(
+		    SELECT new co.edu.poli.Rmanager.menuService.model.dto.ItemPedidoDTO(
 		        d.id_detalle_producto, pr.id_producto, pr.nombre,
 		        d.cantidad, d.precio_unitario,
 		        d.precio_unitario * d.cantidad, d.notas)

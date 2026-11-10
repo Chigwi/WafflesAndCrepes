@@ -64,7 +64,7 @@ public class Pedido {
 	private String metodo_de_pago;
 	
 	@ToString.Exclude
-    @OneToMany(mappedBy = "Pedido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Detalle_producto> productos;
 	

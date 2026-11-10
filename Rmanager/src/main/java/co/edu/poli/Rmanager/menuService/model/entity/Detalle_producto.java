@@ -38,7 +38,7 @@ public class Detalle_producto {
 	
 	@ManyToOne
 	@JoinColumn(name = "pedido")
-	private Pedido Pedido;
+	private Pedido pedido;
 	
 	@Column(name = "cantidad", nullable = false)
 	private Integer cantidad = 1;
