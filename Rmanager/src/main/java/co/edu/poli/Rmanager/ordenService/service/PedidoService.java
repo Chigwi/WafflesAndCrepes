@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.Rmanager.menuService.model.dto.ItemPedidoDTO;
 import co.edu.poli.Rmanager.menuService.model.dto.ItemRequestDTO;
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
@@ -453,6 +454,14 @@ public class PedidoService {
 
 	    return dto;
 	}
+	
+	@Transactional
+	public List<ItemPedidoDTO> getProductosOfPedido(Long idPedido) {
+	    bringPedido(idPedido);   // throws a 404 if the order doesn't exist
+	    return detalleProductoRepository.findItemsByPedido(idPedido);
+	}
+	
+	
 	
 	//*****************
 	// METODOS PRIVADOS

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.poli.Rmanager.menuService.model.dto.ItemPedidoDTO;
 import co.edu.poli.Rmanager.menuService.model.dto.ItemRequestDTO;
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
@@ -224,11 +225,18 @@ public class OrdenController {
 		
 	}
 	
+	//checkout 
 	@PreAuthorize("hasRole('admin')")
 	@PutMapping("/pedido/checkout")
 	public ResponseEntity<EstadoDTO> checkOutPedido(@RequestBody PedidoCheckoutDTO pedido){
 		
 		return ResponseEntity.ok(pedidoService.checkout(pedido.getIdPedido(), pedido.getIdEmpleado()));
 		
+	}
+	
+	//ver los productos de un pedido
+	@GetMapping("/pedido/productos/{id}")
+	public List<ItemPedidoDTO> getProductos(@PathVariable Long id) {
+	    return pedidoService.getProductosOfPedido(id);
 	}
 }
