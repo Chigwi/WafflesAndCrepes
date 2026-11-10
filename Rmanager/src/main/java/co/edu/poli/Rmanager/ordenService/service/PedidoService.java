@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.poli.Rmanager.menuService.model.dto.ItemRequestDTO;
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.menuService.model.entity.Producto;
 import co.edu.poli.Rmanager.menuService.repository.DetalleProductoRepository;
@@ -301,32 +302,30 @@ public class PedidoService {
 	
 	//add producto(S) to pedido
 	@Transactional
-	public Pedido addProductosToPedido(List<Detalle_producto> productos, Long idPedido) {
-		
-		Pedido current = bringPedido(idPedido);
-		
-		Double total = current.getPrecio_total() != null ? current.getPrecio_total() : 0.0;
-		
-		for (Detalle_producto detalle_producto : productos) {
-			
-			Producto actual = bringProducto(detalle_producto.getProducto().getId_producto());
-			
-			detalle_producto.setProducto(actual);
-			
-			detalle_producto.setPedido(current);
-			
-			current.getProductos().add(detalle_producto);
-			
-			total += actual.getPrecio();
-			
-		}
-		
-		current.setPrecio_total(total);
-		
-		return pedidoRepository.save(current);
-		
+	public Pedido addProductosToPedido(List<ItemRequestDTO> items, Long idPedido) {
+
+	    Pedido current = bringPedido(idPedido);
+
+	    for (ItemRequestDTO item : items) {
+	        int cantidad = (item.getCantidad() == null) ? 1 : item.getCantidad();
+	        if (cantidad < 1) {
+	            throw new IllegalArgumentException("La cantidad debe ser al menos 1");
+	        }
+
+	        Producto producto = bringProducto(item.getIdProducto());
+
+	        Detalle_producto d = new Detalle_producto();
+	        d.setProducto(producto);
+	        d.setCantidad(cantidad);
+	        d.setPrecio_unitario(producto.getPrecio());   // price frozen at order time
+	        d.setNotas(item.getNotas());
+	        d.setPedido(current);                         // owning side: writes the FK
+	        current.getProductos().add(d);                // inverse side: triggers the cascade
+	    }
+
+	    current.setPrecio_total(calcularTotal(current));
+	    return pedidoRepository.save(current);
 	}
-	
 	//remove producto(S) from pedido
 	@Transactional
 	public Pedido removeProductosFromPedido(List<Long> idsDetalle, Long idPedido) {
@@ -335,11 +334,7 @@ public class PedidoService {
 
 	    current.getProductos().removeIf(d -> idsDetalle.contains(d.getId_detalle_producto()));
 
-	    double total = current.getProductos().stream()
-	            .mapToDouble(d -> d.getProducto().getPrecio())
-	            .sum();
-
-	    current.setPrecio_total(total);
+	    current.setPrecio_total(calcularTotal(current));
 	    return pedidoRepository.save(current);
 	}
 	
@@ -486,6 +481,12 @@ public class PedidoService {
 	private Producto bringProducto(Long idProducto) {
 	    return productoRepository.findById(idProducto)
 	            .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado: " + idProducto));
+	}
+	
+	private double calcularTotal(Pedido pedido) {
+	    return pedido.getProductos().stream()
+	            .mapToDouble(d -> d.getPrecio_unitario() * d.getCantidad())
+	            .sum();
 	}
 }
 

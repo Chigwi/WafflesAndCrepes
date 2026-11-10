@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.poli.Rmanager.menuService.model.dto.ItemRequestDTO;
 import co.edu.poli.Rmanager.menuService.model.entity.Detalle_producto;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Incidente;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Mesa;
@@ -190,7 +191,7 @@ public class OrdenController {
 	// add productos to pedido
 	@PreAuthorize("hasRole('admin')")
 	@PutMapping("/pedido/productos/add/{id}")
-	public ResponseEntity<Pedido> addProductos (@PathVariable Long id ,@RequestBody List<Detalle_producto> productos){
+	public ResponseEntity<Pedido> addProductos (@PathVariable Long id ,@RequestBody List<ItemRequestDTO> productos){
 		
 		return ResponseEntity.ok(pedidoService.addProductosToPedido(productos, id)); 
 				

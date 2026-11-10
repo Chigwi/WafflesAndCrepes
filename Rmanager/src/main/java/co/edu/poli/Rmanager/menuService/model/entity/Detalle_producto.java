@@ -5,6 +5,7 @@ import java.util.List;
 import co.edu.poli.Rmanager.ordenService.model.Entity.Pedido;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +29,7 @@ public class Detalle_producto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_detalle_producto;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "producto_id")
 	private Producto producto;
 	
@@ -38,6 +39,12 @@ public class Detalle_producto {
 	@ManyToOne
 	@JoinColumn(name = "pedido")
 	private Pedido Pedido;
+	
+	@Column(name = "cantidad", nullable = false)
+	private Integer cantidad = 1;
+
+	@Column(name = "precio_unitario")
+	private Double precio_unitario;
 	
 	
 	
