@@ -444,6 +444,21 @@ public class PedidoService {
 	}
 	
 	
+	//bring the incidente of pedido
+	@Transactional
+	public PedidoUpdateIncidenteDTO getIncidenteOfPedido(Long idPedido) {
+
+	    // fails with a clear 404 if the order doesn't exist
+	    bringPedido(idPedido);
+
+	    PedidoUpdateIncidenteDTO dto = new PedidoUpdateIncidenteDTO();
+	    dto.setId(idPedido);
+	    dto.setIncidente(
+	        incidenteRepository.findDescripcionByPedidoId(idPedido).orElse(null));
+
+	    return dto;
+	}
+	
 	//*****************
 	// METODOS PRIVADOS
 	//*****************
